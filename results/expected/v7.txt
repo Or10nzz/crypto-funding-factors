@@ -1,0 +1,64 @@
+paper_v7 2026-11-20: 317 weeks; main check MOM +0.623%, LV -0.079%, FUND +0.398%
+
+M1 funding tails
+  without top 1% |funding| (> 8.20%): LV spot-sample funding -0.080% (-4.52); LV14 spot-sample funding -0.090% (-4.44); LV30 spot-sample funding -0.103% (-4.45); LV full funding -0.067% (-3.90); MOM full funding +0.106% (+4.80)
+  without top 5% |funding| (> 2.08%): LV spot-sample funding -0.021% (-3.23); LV14 spot-sample funding -0.030% (-3.45); LV30 spot-sample funding -0.034% (-3.49); LV full funding -0.004% (-0.62); MOM full funding +0.030% (+3.27)
+  LV7 spot funding: mean -0.244% median -0.053% 10%-trimmed mean -0.101%
+  LV funding: mean -0.369% median -0.057% 10%-trimmed mean -0.171%
+  MOM funding: mean +0.487% median +0.087% 10%-trimmed mean +0.217%
+
+M2 margin on spot (spot shorts liquidated at a daily high >= 2x entry)
+  LV: spot frictionless +0.692% (+2.36); spot with 1x margin +0.510% (+1.68) [22 liquidated spot shorts]; perp, funding, no liquidation +0.426% (+1.46); perp, funding, liquidation +0.199% (+0.65); funding component -0.244%
+  LV14: spot frictionless +0.904% (+3.21); spot with 1x margin +0.724% (+2.43) [21 liquidated spot shorts]; perp, funding, no liquidation +0.618% (+2.23); perp, funding, liquidation +0.384% (+1.29); funding component -0.269%
+  LV30: spot frictionless +1.031% (+3.96); spot with 1x margin +0.828% (+3.02) [23 liquidated spot shorts]; perp, funding, no liquidation +0.692% (+2.69); perp, funding, liquidation +0.461% (+1.65); funding component -0.319%
+
+M3c event study around the first shortened settlement interval
+  25 events (contracts in the top-30 universe within 4 weeks of their first shortened interval)
+  week -8: n 24 excess funding -0.244% (t -1.63) median -0.089%  price -5.916%  settlements 21.0
+  week -7: n 24 excess funding -0.176% (t -2.63) median -0.100%  price +1.168%  settlements 21.0
+  week -6: n 24 excess funding -0.660% (t -1.95) median -0.159%  price +11.492%  settlements 21.0
+  week -5: n 24 excess funding -2.137% (t -2.23) median -0.167%  price +2.374%  settlements 21.0
+  week -4: n 24 excess funding -2.088% (t -1.15) median -0.106%  price +4.750%  settlements 21.0
+  week -3: n 24 excess funding -0.724% (t -1.32) median -0.114%  price -1.175%  settlements 21.0
+  week -2: n 24 excess funding -1.159% (t -1.47) median -0.133%  price +4.904%  settlements 21.0
+  week -1: n 24 excess funding -1.209% (t -2.44) median -0.137%  price +17.610%  settlements 21.0
+  week +0: n 25 excess funding -13.537% (t -6.08) median -10.908%  price +66.396%  settlements 49.8
+  week +1: n 25 excess funding -6.531% (t -3.93) median -3.650%  price -1.493%  settlements 67.1
+  week +2: n 25 excess funding -4.062% (t -3.37) median -0.734%  price +2.356%  settlements 58.6
+  week +3: n 25 excess funding -2.585% (t -2.71) median -0.172%  price -4.470%  settlements 55.2
+  week +4: n 25 excess funding -3.214% (t -2.72) median -0.258%  price -3.440%  settlements 54.9
+  week +5: n 25 excess funding -1.348% (t -1.75) median -0.009%  price +1.573%  settlements 45.7
+  week +6: n 24 excess funding -0.093% (t -0.37) median -0.024%  price +4.377%  settlements 42.5
+  week +7: n 24 excess funding -0.290% (t -1.17) median -0.031%  price -0.958%  settlements 35.9
+  week +8: n 24 excess funding -0.584% (t -1.81) median -0.000%  price -1.393%  settlements 36.3
+  weeks -4..-1 mean -1.295%, weeks +1..+4 mean -4.098%
+
+M4 overlap: funding by whether the leg is in the other portfolio
+  LV short-leg funding (% of book/wk): from legs also in MOM long -0.300% (t -6.52), other legs +0.008% (t +0.55)
+  MOM long-leg funding: from legs also in LV short +0.357% (t +5.65), other legs +0.046% (t +2.52)
+
+M5 next-week price by quintile of ex-ante funding (long position, unlevered unless stated)
+  excess sort, price capped +1000%: Q1 -0.146% Q5 -0.147% Q1-Q5 +0.001% (NW t +0.00) boot [-1.225%, +1.177%] MDE +1.860%
+    by year Q1-Q5: 2020 +1.185%  2021 +3.282%  2022 -0.708%  2023 +0.207%  2024 +1.986%  2025 -0.608%  2026 -5.580%
+  excess sort, price with long liquidation: Q1 -0.146% Q5 -0.147% Q1-Q5 +0.001% (NW t +0.00) boot [-1.186%, +1.163%] MDE +1.860%
+  raw rate-sum sort, price capped: Q1 -0.146% Q5 -0.147% Q1-Q5 +0.001% (NW t +0.00) boot [-1.240%, +1.175%] MDE +1.860%
+  excess sort, total (price + funding) capped: Q1 +0.958% Q5 -0.366% Q1-Q5 +1.324% (NW t +2.13) boot [+0.272%, +2.348%] MDE +1.739%
+  FUND price part: main (liquidation) -0.194% [long -0.071%, short -0.122%]; cross-margined +0.001%
+
+M6 inference
+  MOM net           mean +0.623% iid t +1.82 NW4 +2.33 NW26 +2.51  acf1-4 -0.18 -0.09 -0.04 +0.09
+  LV net            mean -0.079% iid t -0.24 NW4 -0.23 NW26 -0.21  acf1-4 -0.05 +0.13 +0.04 -0.03
+  FUND net          mean +0.398% iid t +1.30 NW4 +1.26 NW26 +1.13  acf1-4 -0.11 +0.15 -0.00 +0.15
+  LV7 spot funding  mean -0.319% iid t -7.19 NW4 -4.10 NW26 -2.56  acf1-4 +0.65 +0.51 +0.40 +0.31
+  MOM funding       mean +0.487% iid t +7.07 NW4 +4.66 NW26 +2.57  acf1-4 +0.35 +0.34 +0.31 +0.20
+
+M7 liquidity-tiered costs and 5% maintenance margin
+  MOM net with 0.10/0.20/0.40% per side by volume tercile: +0.484% (t +1.81)
+  LV net with 0.10/0.20/0.40% per side by volume tercile: -0.243% (t -0.70)
+  FUND net with 0.10/0.20/0.40% per side by volume tercile: +0.231% (t +0.73)
+  isolated 1x, maintenance 5%: LV spot-sample perp total +0.166% (+0.54); LV14 spot-sample perp total +0.349% (+1.15); LV30 spot-sample perp total +0.392% (+1.38); MOM net +0.597% (+2.23); LV net -0.131% (-0.37); FUND net +0.346% (+1.10)
+
+M8 Fama-MacBeth with reversal, MAX, Amihud, size
+  price: MOM +1.525% (+1.53)  LV +0.892% (+0.65)  FUND +0.189% (+0.23)  surge -2.032% (-1.70)  age +1.011% (+0.96)  rev1 +0.477% (+0.60)  max -0.972% (-0.82)  amihud +1.839% (+0.72)  size +2.331% (+1.14)  perponly +1.201% (+1.91)
+  fund : MOM +0.297% (+1.74)  LV -0.292% (-1.86)  FUND +1.368% (+5.73)  surge -0.054% (-0.31)  age -0.009% (-0.05)  rev1 +0.505% (+2.94)  max -0.225% (-0.96)  amihud +1.483% (+2.74)  size +0.921% (+2.54)  perponly +0.208% (+1.53)
+  total: MOM +1.821% (+1.78)  LV +0.600% (+0.44)  FUND +1.557% (+1.98)  surge -2.086% (-1.74)  age +1.002% (+0.95)  rev1 +0.982% (+1.22)  max -1.197% (-1.04)  amihud +3.321% (+1.29)  size +3.252% (+1.55)  perponly +1.410% (+2.24)

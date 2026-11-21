@@ -1,0 +1,387 @@
+==== 2026-11-20 PRE-REGISTERED paper_funding (direction test after the third external review; written before any computation) ====
+DESCRIPTION on seen data (all weeks were used before). Purpose: decide whether the paper is rewritten around funding.
+Same weeks / top-30 universe / 6-6 / 0.10% per side / price-weighted funding as paper_ic_ls.
+Test 1 (LV, spot vs perp): each Monday restrict the universe to contracts with a Binance spot pair (>= 24 required);
+  LV picks from the perp signal. Three weekly LS returns on the SAME picks: (S) spot open-to-open price return, no
+  funding; (P) perp price only; (T) perp price + funding. Report mean, t, and the paired weekly difference S - T with
+  Newey-West (4 lags) t. PASS1 = T's funding component <= 0 with t <= -2 AND mean(S - T) > 0 with NW t >= 2.
+Test 2 (MOM, funding carry): (a) persistence: pooled over contract-weeks in the universe, slope of next-week funding
+  rate sum on past-7-day funding rate sum, standard errors clustered by week (reported as the t of the weekly slopes);
+  (b) ex-ante funding of the MOM long and short legs (past 7 days) and their realised next-week funding; (c) weekly
+  regression of the MOM long-leg realised funding on its ex-ante funding (NW t). PASS2 = (a) slope > 0 with t >= 2
+  AND the MOM long leg's ex-ante funding is negative (longs paid before entry) with t <= -2 AND (c) slope > 0 with t >= 2.
+Decision fixed now: PASS1 and PASS2 -> rewrite the paper around funding ("what funding does to crypto factor
+returns"); only one -> keep the current theme, fix the hard errors, report the passing test as a section; neither ->
+fix the hard errors, post to SSRN as is, close the project. The IC-vs-LS material is demoted in every case to
+"rank IC is uninformative about long-short returns in crypto" with a null baseline (to be added separately).
+RESULT paper_funding (2026-11-20, results/paper/funding_test.txt): PASS1 and PASS2 -> by the rule fixed above, the
+  paper is rewritten around funding.
+  Test 1 (LV, 303 weeks, universe restricted to contracts with a spot pair): spot LS +0.679%/wk (t 2.42), perp price
+  +0.677% (t 2.41), perp price + funding +0.408% (t 1.44); funding component -0.269%/wk (NW t -4.16); spot minus perp
+  total +0.271% (NW t 4.14). Note: on the full universe (incl. perp-only contracts) LV perp total was +0.05%/wk.
+  Test 2 (MOM): funding persistence slope +0.730 (t 8.10); MOM long leg ex-ante 7-day funding -1.017% (t -6.87, longs
+  were paid before entry), realised next week -0.794% (t -5.40); short leg ex-ante -0.133% (t -1.59), realised +0.118%;
+  long-leg realised on ex-ante slope +0.478 (NW t 2.90).
+
+==== 2026-11-20 PRE-REGISTERED paper_v2 (funding-centred rewrite; ~/projects/论文/改写计划.md; written before computation) ====
+DESCRIPTION on seen data. Same weeks, top-30 universe, 6/6, 0.10%/side, price-weighted funding unless stated.
+A Funding as a predictable cash flow: for LV and MOM quintiles (6 contracts each, by the signal), the mean ex-ante 7-day
+  funding rate sum and the realised next-week price-weighted funding paid by a long, NW t per quintile.
+B Spot vs perp for MOM (the paper_funding Test 1 design on MOM picks), and for LV with 14- and 30-day windows.
+C LV on the full universe vs the spot-pair universe; share of LV short legs that are perp-only contracts and the
+  LS of LV when perp-only contracts are excluded from the full universe.
+D Funding-neutral momentum: each week split the universe at the median of ex-ante 7-day funding; within each half long
+  the top 3 / short the bottom 3 by MOM (6/6 total); report LS net, price and funding parts. Wording fixed now: if its
+  net LS has t < 2, the paper says momentum in perps is largely a funding carry; otherwise "partly".
+E Turnover (share of legs changed per week) and break-even cost per side (gross LS / (2 x turnover)) for MOM, LV, FUND.
+F Mark price: funding recomputed with the open of the 1-hour MARK price kline at each settlement; MOM and LV funding
+  components and the ALPACA week; if either component moves by more than a quarter of its value, mark price becomes
+  the main specification. Appendix: ALPACA 2025-04-28 week, daily totals of rates, last-price and mark-price weighted.
+G IC section (secondary): NW t for the IC of MOM and LV; zoo null baseline by permutation (10,000 shuffles of the LS
+  means across features) for the share of opposite signs and corr(IC, LS), crypto and US; observed vs expected (under
+  independence) number of features with both |IC t| >= 2 and |LS t| >= 2 and opposite signs; three-way split of the
+  disagreement: sign agreement with LS gross of (i) the IC computed on the 12 traded contracts only, (ii) a rank-based
+  LS (mean next-week rank of the long legs minus the short legs), (iii) price-only LS; BH-FDR (q = 0.10) count of
+  significant ICs. The statistics "corr(IC, tail part)", "tail / IC-implied ratio" and "corr(IC, median-leg LS)" are
+  dropped as evidence (partly mechanical).
+H Universe ranked by 90-day instead of 30-day quote volume: MOM and LV decomposition and the spot-vs-perp test.
+RESULT paper_v2 (2026-11-20, results/paper/v2.txt) and paper_v2_zoo (results/paper/v2_zoo.txt):
+  A funding by quintile (ex-ante 7-day rate sum, + = longs paid): MOM Q5 (winners, long leg) -1.017% (NW t -4.03),
+    realised -0.795%; MOM Q1 -0.133%; middle +0.15%. LV Q1 (most volatile, short leg) -1.250% (t -4.28), realised
+    -0.774%; LV Q3-Q5 +0.12..+0.16%. Negative funding is concentrated in the extreme contracts and is predictable.
+  B spot vs perp (spot-pair contracts, 303 weeks): LV 7d spot +0.679% (t 2.42) / perp total +0.408% (t 1.44), funding
+    -0.269% (t -4.16); LV 14d +0.906% (3.14) / +0.615% (2.12), -0.292%; LV 30d +0.973% (3.62) / +0.626% (2.32), -0.344%;
+    MOM spot -0.049% (t -0.17) / perp total +0.230% (0.80), funding +0.283% (t 4.12); FUND spot +0.075% / perp +0.609%
+    (2.39), funding +0.527% (t 7.05). -> funding cuts the LV premium by about a third; MOM has no spot premium.
+  C LV full universe net +0.054%; perp-only contracts are 12% of LV short leg-weeks, mean -3.81% (median +2.91%) vs
+    -0.01% for contracts with a spot pair -> the squeeze tail sits in perp-only contracts.
+  D funding-neutral MOM: net +0.786% (t 2.14), price +0.358% (t 0.97), funding +0.428% (NW t 4.42) -> registered
+    wording: "partly a funding carry".
+  E turnover / break-even cost per side: MOM 43% / 1.07%; LV 57% / 0.15%; FUND 51% / 0.72%. NW t of IC: MOM -2.14, LV 8.90.
+  H 90-day-volume universe: MOM IC +0.016 (t 1.14), LS net +0.916% (t 3.08), funding parts +0.137/+0.088; LV net
+    +0.133%, short funding -0.137%; LV spot-perp gap +0.114% (t 3.39); MOM gap -0.077% (t -2.15). Funding effects are
+    smaller when the universe is less tilted to recent volume spikes.
+  G1 permutation null: crypto share opposite 59% vs null mean 52% (5-95% 46-59%, p 0.052), corr(IC,LS) -0.10 inside null
+    (-0.13..+0.13); US top30 27% (null 41-54%, p ~0), corr +0.68 (p ~0); US top300 25%, +0.50; US overlap 26%, +0.61.
+    Both |t|>=2 and opposite: crypto 7 observed vs 13.7 expected under independence. BH-FDR q=0.10 significant ICs:
+    crypto 75, US top30 0, US top300 3, US overlap 0.
+  G2 three-way split (sign agreement of 157 features): rank IC all-30 vs 12-traded IC 136; 12-traded IC vs rank-based
+    LS 145; rank-based LS vs price-only LS 94; price-only vs total LS 127; overall 65. -> magnitudes first, funding second.
+RESULT paper_v2 F (mark price, 2026-11-20, results/paper/v2_mark.txt): MOM long funding +0.397% (last) vs +0.402% (mark),
+  LV short funding -0.388% vs -0.394%; LS net MOM +0.827 / +0.833, LV +0.054 / +0.049 -> change < 2%, the last-price
+  specification stays main (rule: > 25% change would switch). ALPACA 2025-04-28 week, funding received by a short:
+  rate sum -21.82% (i.e. short pays 21.8%), last-weighted +40.88%, mark-weighted +24.17%; the squeeze day 04-30 drives it
+  (rate sum +15.39%, last-weighted +87.18%, mark-weighted +71.11%; max |rate| 4% per settlement on 04-29/04-30).
+  Hourly last-price coverage: 201 of 241,267 settlements during universe weeks lack an hourly price (0.083%).
+NOTE paper NW t of LS (2026-11-20): weekly LS net autocorrelation MOM -0.17, LV -0.11, FUND -0.16; NW(4) t: MOM 2.82
+  (ordinary 2.27), LV 0.15 (0.15), FUND 1.90 (1.77). The paper reports ordinary t (conservative) and notes NW.
+
+==== 2026-11-20 PRE-REGISTERED paper_v3 (response to blind review of funding_paper v1.0, 论文/draft/盲审意见_v1.0_2026-11-20.md; written before computation) ====
+DESCRIPTION on seen data (not out-of-sample). Same weeks (Mondays), top-30 by 30-day quote volume, 6/6, 0.10%/side,
+price-weighted funding, unless stated. Script paper_v3.py -> results/paper/v3.txt.
+R0 Data rules (become the MAIN specification for every table; the v1.0 rule is reported as a robustness row):
+  (a) Trading stop. For a position opened at the open of day d and held to d+7: if the contract has no hourly kline
+      with positive quote volume in the last 24 hours before d+7 (or no daily bar at d+7), the position exits at the
+      close of the last positive-volume hour before d+7; funding counts only settlements in (d, end of that hour].
+      This replaces "last daily close" and drops funding on zero-volume filler bars (e.g. ALPACA 2025-05-01..05). The
+      last traded close stands in for Binance's delivery price (not in our archive): stated as a limitation; the
+      list of affected contract-weeks is printed.
+  (b) Leg cap. A leg's return (price + funding, on its own side) is floored at -100%; price and funding parts are
+      scaled proportionally when the cap binds. Count of capped legs printed.
+  (c) Spot availability per week: a contract counts as having spot in week d only if its Binance spot pair has a
+      daily bar at d (perp-only flags in C/E/F use this, not the static 246/299 map).
+A Momentum amounts (F1). For MOM (30d) in the 30-day AND 90-day universes: gross LS = price part + funding part,
+  each with an 8-week moving-block bootstrap 5-95% interval (2,000 draws) and the funding share of gross with its
+  interval. Truly funding-neutral momentum, main version: each week regress the cross-sectional rank of MOM on the
+  rank of ex-ante funding (7-day rate sum), sort on the residual, 6/6. Second version: dependent 5x5 sort (funding
+  quintiles of 6; within each, long the top 1 and short the bottom 1 by MOM; 5/5). Neutrality check: |funding part|
+  <= one third of plain MOM's funding part. Spanning: MOM net LS on (market, FUND's funding component), alpha with
+  and without the funding component, bootstrap interval of the alpha difference.
+  Wording rules: no "largely funding" / "most of the reliable part". Abstract reports funding's share in both
+  universes. If the residual version is neutral and its net LS has NW t >= 2: "momentum keeps a price component after
+  funding is neutralised"; neutral and t < 2: "after neutralising funding the remainder is not distinguishable from
+  zero"; not neutral: "funding cannot be neutralised within 30 contracts" (and report).
+B Tails (F2). Table 3 (spot vs perp, LV 7/14/30, MOM, FUND) and Table 4 (MOM, LV, FUND decomposition) under: R0 main;
+  v1.0 rule; excluding the week of 2025-04-28; excluding the 1% / 5% of universe contract-weeks with the largest
+  |price + funding| (removed from the cross-section before sorting; look-ahead, robustness only). Wording rule: the
+  claim "funding cuts the spot LV premium" stays only if the LV-7d funding component has NW t <= -2 under R0, ex-ALPACA
+  and ex-top-1%; otherwise it is qualified as depending on a few extreme weeks.
+C Mechanics (M1). Table 2 ex-ante funding recomputed on the offset window (d-14, d-7] for MOM and LV quintiles. Rule:
+  if LV Q1 offset ex-ante funding has NW t > -2, the text says the same-window pattern is partly mechanical. Spot -
+  perp total column dropped (identity); "FUND is a funding strategy" relabelled as expected given persistence.
+D Overlap and cross-section (M2). Weekly share of names shared by MOM long / LV short / FUND long (pairwise).
+  Fama-MacBeth: next-week price part, funding part (paid to a long, sign + = received) and total, on cross-sectional
+  ranks in [0,1] of MOM, LV (-vol), FUND (-7d rate sum), volume surge (30d / (90d/3) quote volume), log listing age,
+  plus a perp-only dummy (R0 c); NW(4) t of the weekly slopes.
+E Spot-free contracts (M4). LV short legs split by R0(c) into perp-only vs spot-pair: price part and funding part
+  separately; difference of weekly means with NW t. Rule: "funding effects are strongest in perp-only contracts"
+  only if the FUNDING part difference has NW t <= -2; otherwise the text says their loss is mainly price. Volume-surge
+  quintiles: ex-ante and realised funding per quintile (NW t). Text changes "spot studies cannot see" to "absent from
+  Binance spot data".
+F Inference (M5). All main-table t are NW(4). Bootstrap 5-95% for Table 3/4 headline numbers. Winsorised (pooled
+  1/99% of contract-week returns) and log1p versions of LS net. CAPM: LS net on the equal-weight universe return, NW
+  alpha and beta, for MOM, LV, FUND. Specification count table written in the text (no new computation). The sentence
+  "by the wording we fixed before running this test" is removed unless the registry is made public with the code.
+G Robustness (M6). MOM, LV, FUND net LS with price and funding parts: 10/10 in top 30; top 50 at 6/6 and 10/10; top 100
+  at 10/10; 30-day-quote-volume-weighted legs (top 30, 6/6); halves split at 2023-09-01 with values and NW t;
+  0.30%/side for perp-only legs; share of settlements with interval < 8h by year (descriptive, for the rule changes).
+Section 8 (IC) leaves the main text: one appendix paragraph with existing numbers (exact p 0.052), no new IC tests.
+CLARIFICATION paper_v3 R0(a) (2026-11-20, before computation): "no positive-volume hour in the last 24 h before d+7" is
+  read from the daily bar of day d+6 (that UTC day = the last 24 h): stop if it is missing or has zero quote volume, or
+  if there is no bar at d+7. The hourly archive then gives the exit hour (last positive-volume hour before d+7); if the
+  hourly archive does not cover the week, the exit is the close of the last daily bar with volume. Reason: gaps in the
+  hourly archive must not be read as trading stops.
+RESULT paper_v3 first run (2026-11-20, results/paper/v3_run1.txt): see the final RESULT below; one finding and one fix:
+  the full-universe LV net moves from +0.054% (v1.0, no cap) to +0.375% only because of R0(b), the -100% leg cap: R0(a)
+  alone gives +0.047%. 16 capped LV short legs (ALPACA 2025-04-28 raw -557%, AKE 2026-09-14 -320%, VELVET 2026-06-22
+  -297%, RIVER 2026-01-19 -227%, rest -105..-146%). Both versions go in the paper (uncapped = cross-margined book,
+  capped = isolated legs); neither has |t| >= 2.
+CLARIFICATION paper_v3 (2026-11-20, POST-HOC data fix, found in the R0 stop list): 11 universe contract-weeks are dead
+  contracts (zero quote volume on d-1; ALPACA, FTT, HIFI, LEND, MATIC after their stops) and are picked by 10 legs of each
+  factor. Known before the open, so no look-ahead: the universe now skips contracts with zero quote volume on d-1 and
+  takes the next by volume. Final run uses this; the first run is kept as v3_run1.txt.
+RESULT paper_v3 final (2026-11-20, results/paper/v3.txt; dead-contract filter on; first run v3_run1.txt):
+  R0: 9 trading-stop contract-weeks (LUNA, FTT, COCOS, MATIC, BNX, ALPACA, HIFI, TON, VANRY); spot trading at d in 9,049
+    of 9,510 contract-weeks (static map 9,174); capped legs MOM 2, LV 16, FUND 8.
+  B Table 3 (303 wks): LV7 spot +0.692% (NW t 2.36) perp total +0.424% (1.45) funding -0.267% (-4.13, boot -0.40..-0.15);
+    LV14 +0.904/+0.616 (2.22), -0.289; LV30 +1.031/+0.691 (2.69), -0.337; MOM spot -0.025% (-0.10), funding +0.282 (4.10);
+    FUND spot +0.095, perp +0.628 (2.11), funding +0.527 (7.04). LV funding t -4.1..-4.4 in every variant (v1.0 rule,
+    ex-ALPACA, ex-top-1%, ex-top-5%) -> rule B TRUE: "funding cuts the spot LV premium" stays.
+    Table 4: MOM net +0.857% (2.89) price +0.477 funding +0.465; LV +0.358% (1.12) [no cap +0.030% (0.08)]; FUND +0.750%
+    (2.35) [no cap +0.655 (1.99)]. Tails: ex-top-1% contract-weeks MOM net +0.020% (0.09), ex-top-5% -0.717% (-3.76),
+    while its funding part stays +0.41/+0.30 (t 4.6/4.3); LV rises to +0.743% (2.95) / +1.203% (6.23).
+  A MOM funding share 49% [29%, 86%] (30d universe), 22% [11%, 40%] (90d universe; net +0.911%, t 3.66). Residual and 5x5
+    versions keep funding +0.40 / +0.34 -> NOT neutral -> wording "funding cannot be neutralised within 30 contracts".
+    Spanning on FUND funding: alpha +0.862% -> +0.573% (t 1.59), drop +0.289% boot [-0.066%, +0.733%] (includes 0).
+  C offset window: LV Q1 ex-ante -1.02% (NW t -3.88) -> not mechanical; MOM Q5 -1.06% (-4.35).
+  D overlap MOM long & LV short 49%, MOM long & FUND long 33%, LV short & FUND long 32%. FM funding slopes: MOM +0.55%
+    (t 3.02), LV -0.50% (-3.16), FUND +1.37% (5.82), perp-only +0.35% (2.09); price slopes: MOM +2.30% (2.35), others |t|<2.
+  E perp-only LV short legs 14%: weekly difference vs spot-pair legs price -5.29% (NW t -2.02), funding -0.35% (-0.40) ->
+    rule E FALSE: the perp-only loss is mainly price (squeezes), not funding. Volume surge Q5 ex-ante funding -1.19%
+    (NW t -4.10), realised -0.84% (-3.31); Q1-Q3 positive -> volume spikes go with negative funding.
+  F CAPM: MOM alpha +0.862% (2.95) beta -0.01; LV +0.414% (1.33) beta -0.10 (-2.29); FUND +0.722% (2.38). Winsorised net:
+    MOM +0.436% (1.93), LV +0.296% (1.16), FUND +0.423% (1.57); log1p: MOM t 2.34, LV 0.68, FUND 1.89.
+  G MOM net t 2.35-3.27 across 10/10, top 50, top 100, volume weights; halves +0.76 (2.27) / +0.91 (1.92) but its funding
+    part is +0.11 then +0.80. LV net |t| < 1.6 everywhere, funding part t -4.2..-5.1 everywhere. FUND net t 2.3-2.8.
+    Settlement interval < 8h in 13-59% of contract-weeks by year (2023 13%, 2026 59%).
+NOTE paper_v3_extra (2026-11-20): descriptive statistics already in v1.0 (Table 1, persistence slope, MOM long-leg
+  funding predictability, turnover / break-even, rank IC, start weekdays, MOM long-leg tails) recomputed under the
+  paper_v3 conventions so that every number in v2.0 comes from one pipeline. No new tests, no wording rules.
+CLARIFICATION paper_v3 (2026-11-20, POST-HOC bug fix): Binance funding timestamps carry a few milliseconds of jitter
+  (e.g. 2020-10-05 16:00:00.012), so the Monday 00:00 settlement fell into (entry, exit] of either week depending on
+  the jitter; the stated convention ("a settlement at Monday 00:00 belongs to the week that ends then, counted once")
+  was not enforced. Found because a count of settlements per week gave 20 or 22 instead of 21 for 8-hour contracts. No
+  settlement is counted twice for a continuously held leg, but one settlement per week can move between the outgoing
+  and the incoming leg, and the FUND signal window had the same issue. Fix: settlement times are rounded to the nearest
+  minute before any assignment (paper_v3.load, new price cache fundpx_rounded.pkl). Applies to all paper_v3 outputs;
+  v1.0 / paper_v2 numbers were computed without it.
+
+==== 2026-11-20 PRE-REGISTERED paper_v4 H (hedging demand and funding around token unlocks; written before computation) ====
+Question (blind review v1.0, M7): is the negative funding of extreme contracts consistent with hedging demand, i.e.
+insiders / investors shorting the perpetual ahead of large cliff unlocks? Seen before this entry: the unlock DEV
+results (2026-11-16, price-and-funding returns of shorts around unlocks, total only; funding never examined on its own)
+and all paper_v3 funding results. Description on seen data, not out-of-sample.
+Events: data/unlock/events.json (insiders + privateSale cliffs, flowswap dropped), size >= 0.5% of max supply.
+Sample: paper_v3 top-30 universe (R0 rules, live filter, rounded settlement times), restricted to contracts whose
+project is in the unlock mapping (others' unlock status is unknown; they are excluded, stated bias: today's DefiLlama
+table, survivors).
+Flags per contract-week (formation day d): UP = an event with d < T <= d + 30 days; RECENT = an event with d - 30 < T <= d.
+Outcomes: ex-ante funding (rate sum over (d-7, d], + = longs paid) and realised next-week price-weighted funding paid by a long.
+Main test: weekly cross-sectional OLS of each outcome on UP, RECENT and controls (ranks in [0,1] of MOM, LV, volume
+surge; perp-only dummy); NW(4) t of the mean UP slope over weeks with at least one UP and one non-UP contract.
+Also reported: raw within-week difference UP minus non-UP (NW t); counts; share of the most-negative ex-ante funding
+quintile that has UP; size >= 2% variant.
+Rule: if fewer than 100 UP contract-weeks -> "insufficient sample". Otherwise, main UP slope on realised funding with
+NW t <= -2 and the ex-ante slope negative -> text: "funding is more negative ahead of large insider unlocks, consistent
+with hedging demand"; |t| < 2 -> "no evidence that unlock-related hedging explains negative funding"; t >= +2 ->
+"evidence against the hedging explanation". Either way it goes into Section 3 as one paragraph.
+Also (no test): weekly series of price and funding parts for MOM, LV, FUND and the LV spot-sample S/P/T series are
+written to results/paper/v4_series.json for the figures.
+RESULT paper_v4 H (2026-11-20, results/paper/v4.txt): mapped contract-weeks 5,331, UP 432, RECENT 440. FM slope on UP:
+  ex-ante funding -0.554% (NW t -2.07, 211 weeks), realised -0.364% (NW t -1.10); raw differences -0.565% (-1.86) and
+  -0.486% (-1.44). Most-negative ex-ante quintile: 10% with UP vs 8% unconditional. Size >= 2%: 77 UP -> insufficient.
+  -> rule H: "no evidence that unlock-related hedging explains negative funding". Figures from v4_series.json
+  (paper_v4_figs.py -> 论文/figures/fig_parts, fig_lv_spot).
+
+==== 2026-11-20 PRE-REGISTERED paper_v5 (response to blind review of v2.1, 论文/盲审意见-2026-11-20.md; written before computation) ====
+DESCRIPTION on seen data. Seen before: every paper_v3/v4 result. New MAIN specification (replaces R0 main for all tables):
+  M11 funding weighted by the MARK price (open of the 1h mark kline at each settlement; last price where missing).
+  M2  a stopped contract exits at the close of the 1h MARK kline of its last traded hour (proxy for Binance's delivery
+      price = average index price over the last 30 min, 1 h before 2024-11-11), not the last trade.
+  M1  isolated margin with liquidation: for each leg, if the daily range could bring equity near zero (short: max daily
+      high >= 1.8 x entry; long: min daily low <= 0.2 x entry), walk the 1h mark klines; equity = 1 + side x (worst
+      price in the hour / entry - 1) + funding received so far (settlements at the hour start applied first); equity
+      <= 0 -> the leg returns -100%, its funding part is what it received until then, no later funding. Maintenance
+      margin and liquidation fees ignored (stated). Cross-margined book (no floor, no liquidation) stays as a row.
+  The spot-sample funding component is now the funding part of the perp legs (not perp total - perp price), so that a
+  liquidated leg does not move price into the funding column.
+F1 tails: (a) winsorised (pooled 1/99% of contract-week total returns) MOM / LV / FUND net, price, funding go into the
+  tails table; (b) volatility-matched random benchmark: 1,000 random 6/6 portfolios per factor, each real leg contract
+  replaced by a random contract from the same 7-day-volatility quintile that week; report the drop in the price part
+  from removing the top 1% (5%) |total| contract-weeks, real vs the random distribution; (c) symmetric trim on |funding
+  part|: remove the top 1% / 5% contract-weeks by |funding| and report the funding parts.
+  Wording: "momentum's price part is concentrated in extreme winner-weeks" only if the real MOM price-part drop (top 1%)
+  exceeds the 95th percentile of the random drops; otherwise the trimming result is described as mechanical and dropped
+  as evidence. "The funding part is not a tail" only if, after the top-1% |funding| trim, MOM's funding part keeps at
+  least half its value with NW t >= 2.
+F2 time: per-year price and funding parts (NW t) for MOM, LV, FUND; headline numbers without 2026; concentration of the
+  cumulative funding part (top 5 and top 10 contracts, top 1% leg-weeks); funding part from leg-weeks with more than 21
+  settlements vs the rest. Wording fixed now: abstract and conclusion say "consistent in sign and significance across
+  designs, concentrated after 2023" (no "stable"); if the LV-7d spot-sample funding component without 2026 has NW t > -2,
+  add "and dependent on 2026".
+M4 Table 3 funding component split into long leg and short leg.
+M5 funding net of Binance's default interest component (0.01% per 8 hours, prorated by the settlement interval): Table 2
+  in excess terms; share of settlements within 0.0005% of the default; persistence slope on excess funding. Wording:
+  persistence is described as partly a feature of the rate formula (clamp at the default), not as a finding.
+M6 momentum on spot: report "no detectable momentum on spot prices" with the bootstrap interval; decompose full-universe
+  vs spot-sample MOM price part: (A) full, 317 weeks; (B) full, the 303 spot weeks; (C) full-universe picks with perp-only
+  legs dropped, 303 weeks; (D) spot-eligible contracts re-sorted (Table 3 perp price).
+M7 neutralisation rewritten as partial; residual and dependent-sort versions also in the top-100 universe (10/10; dependent
+  sort = top 2 / bottom 2 within each of five funding quintiles). Wording: report the funding share; "too little
+  cross-sectional variation" only if the top-100 versions also keep a funding share above 40%.
+M8 headline series (LV-7d spot funding component, MOM funding part and net, LV funding part, FUND funding part): NW t with
+  4, 13 and 26 lags; 26-week block bootstrap 90% interval; autocorrelations at lags 1, 4, 13, 26.
+M10 unlock test rerun under the new main spec; text uses the registered wording ("no evidence that unlock-related
+  hedging explains negative funding" / "explains little") plus the minimum detectable effect (2.8 x SE).
+M11 factor funding parts with the plain sum of rates vs price-weighted, full sample.
+M12 one-hour execution delay: enter at the price at d + 1h (close of the 1h kline starting at d), exit at d + 7d + 1h,
+  funding in (d + 1h, d + 7d + 1h], legs floored at -100%; MOM, LV, FUND.
+M9 Appendix C (IC) removed. Holm adjustment over three core claims (LV-7d spot funding component, MOM funding part,
+  MOM net) reported in the text.
+Script paper_v5.py -> results/paper/v5.txt; all v3/v3_extra/v4 tables rerun under the new main spec -> results/paper/v5main/.
+RESULT paper_v5 (2026-11-20, results/paper/v5.txt, v5main/v3.txt, v5main/v3_extra.txt, v5main/v4.txt):
+  New main (mark-price funding, mark exit at stops, isolated 1x with hourly liquidation): liquidated legs MOM 12, LV 51,
+  FUND 27 (checked: every liquidated LV short has a daily last-price high >= 1.8x entry, max 10.9x AKE 2026-09-14).
+  Table 3 (303 wks): LV7 spot +0.692% (2.36) / perp total +0.199% (0.65) / funding -0.244% (NW t -4.10; long leg
+  -0.080, short leg -0.163); LV14 funding -0.269 (-4.02), LV30 -0.319 (-4.10); perp totals all |t| < 1.7 because
+  liquidated short legs cost about another 0.25 pt; MOM spot -0.025 [-0.42, +0.41], funding +0.284 (4.15); FUND funding +0.529.
+  Table 4: MOM net +0.623% (2.33) price +0.222 funding +0.487; LV -0.079% (-0.23); FUND +0.398% (1.26). Cross-margined:
+  MOM +0.742 (2.64), LV +0.144 (0.42), FUND +0.560 (1.81).
+  F1: random benchmark top-1% trim: MOM price drop +0.673 vs random 95th pct +0.806 (share >= real 0.113) -> rule: the
+    "price part concentrated in extreme winner-weeks" claim is DROPPED as mechanical (top 5%: +1.278 vs 0.928, share 0,
+    reported descriptively). Top-1% |funding| trim: MOM funding part +0.106 (22% of +0.487) -> rule: "funding part is not a
+    tail" FAILS; funding is itself concentrated (top 1% leg-weeks = 63% of MOM's cumulative funding, 65% LV, 42% FUND).
+    Winsorised: MOM net +0.428 (1.89), price +0.051, funding +0.463; LV +0.306 (1.19); FUND +0.429 (1.65).
+  F2: by year MOM funding 2020 +0.22, 2021 +0.03, 2022 -0.01, 2023 +0.67, 2024 +0.05, 2025 +0.67, 2026 +1.86 (t 5.98); LV
+    2026 -1.31; without 2026 LV7 spot funding -0.173 (NW t -3.35) -> no "dependent on 2026" clause; MOM funding share 45%.
+    Funding from leg-weeks with > 21 settlements: MOM +0.398 of +0.487, LV -0.296 of -0.369, FUND +0.450 of +0.693.
+  M5: 42% of settlements at the default rate; excess funding of middle quintiles ~0 (|t| < 1.5), extremes MOM Q5 -1.22
+    (ex-ante) / -1.02 (next week), LV Q1 -1.45 / -0.99; persistence on excess 0.716 (t 9.74).
+  M6: MOM price part (A) full +0.222, (B) 303 spot weeks +0.289, (C) without perp-only legs +0.008, (D) spot-eligible
+    re-sorted -0.030 -> momentum's price part comes from perp-only contracts (323 of 3,804 leg-weeks).
+  M7: top-100 10/10 funding share plain 63%, residual 52%, dependent 62%. NOTE: the registered rule ("too little
+    cross-sectional variation" only if top-100 shares > 40%) is logically reversed - a high share with 100 contracts
+    argues AGAINST "too few contracts". The text drops that explanation and says neutralisation by sorting does not
+    remove funding even with 100 contracts.
+  M8: NW26 t: LV7 spot funding -2.64, MOM funding +2.57, MOM net +2.51, LV funding -2.75, FUND funding +3.72; 26-week
+    block intervals all exclude 0; acf(1) of funding parts +0.29..+0.46.
+  M11: plain-sum vs mark-weighted funding parts: MOM +0.446 vs +0.487, LV -0.422 vs -0.369, FUND +0.647 vs +0.693.
+  M12: 1h delay (capped): MOM +0.742 (2.67), LV +0.325 (1.02), FUND +0.681 (2.32); funding parts unchanged.
+NOTE paper_v5 (2026-11-20, after the run): ALPACA 2025-04-28 under the new main: the 1h MARK kline of the last traded
+  hour (09:00) closes at 0.4904 while the last trade is 1.19, so the delivery-price proxy gives a cross-margined short loss
+  of -152% (was -530% with the last trade). Weekday check in paper_v3_extra fixed to use the funding part of the perp legs
+  (T - P was polluted by liquidation). Paper v2.2 written from v5.txt and v5main/*.
+
+==== 2026-11-20 PRE-REGISTERED paper_v6 (response to blind review of v2.2, 论文/draft/盲审_v2.2.md; written before computation) ====
+DESCRIPTION on seen data, paper_v5 main specification unless stated. Seen before: all paper_v3/v4/v5 results.
+A  Ratios: funding component / spot premium for LV 7/14/30 on the spot sample with 8-week block bootstrap 90% intervals.
+B  Spot sample selection: (a) full-universe LV funding part on the 303 spot weeks vs all 317 weeks vs the spot sample
+   (-0.24), splitting the gap into weeks and contracts; (b) spot test with a threshold of 20 instead of 24 contracts
+   (more weeks, fewer legs where needed: 6/6 if >= 24, else 5/5 if >= 20), LV 7/14/30, MOM, FUND.
+C  Margin: LV 7/14/30 spot-sample perp total and full-universe MOM / LV / FUND net under isolated margin of 1x, 2x, 3x
+   the notional (a leg loses at most its margin), 1x with a 2.5% maintenance margin, and cross-margined.
+D  Table 4 funding component split into default interest and excess, for the long and the short leg.
+E  Concentration benchmark: share of the top 1% of leg-weeks in the sum of |funding contributions| and of |price
+   contributions|, real portfolios vs 1,000 volatility-quintile-matched random portfolios.
+F  Equity analogue: next-week price part by quintile of ex-ante excess funding (NW t), Q1 (most negative) vs Q5.
+G  Delivery price: Binance indexPriceKlines 1m for the 9 stop contract-weeks, average over the 30 minutes before the
+   end of the last traded hour; if it differs from the mark-close proxy by more than 10% for any contract-week, the index
+   average replaces the proxy in the main specification (rerun), otherwise the proxy stays and the comparison is reported.
+H  Settlement interval: per contract the first date with an interval below 8 hours; counts by year.
+I  Risk: weekly SD, annualised Sharpe, maximum drawdown (compounded) of MOM / LV / FUND net; mean weekly Spearman
+   correlations among the Fama-MacBeth regressors.
+J  8- and 26-week block bootstrap 90% intervals of MOM / LV / FUND net returns.
+Text changes fixed now: default-interest attribution per D; "does not change the funding cost" removed; ratios become
+secondary with intervals; 42% at default described as a feature of the clamp; FUND's funding significance marked as
+by construction; "comes from perpetual-only contracts" -> "is close to zero without them (point estimate)"; dependent
+sort comparison limited to the top 30 with its 5/5 legs noted; momentum net return no longer a core claim; Holm
+sentence removed; "shorting cost" limited to the negative-funding end; uncited references cited or removed; mention of
+the research log removed.
+Script paper_v6.py -> results/paper/v6.txt.
+RESULT paper_v6 (2026-11-20, results/paper/v6.txt; main-spec check MOM +0.623, LV -0.079, FUND +0.398 = paper_v5):
+  A ratios (Table 4 convention, spot legs floored like perp legs): LV7 35% [16%, 108%], LV14 30% [16%, 68%], LV30 31%
+    [18%, 59%] (8-week block bootstrap) -> "about a third" is a point estimate with wide intervals; levels lead.
+  B LV funding: full universe -0.369 (317 wks), -0.325 on the 303 spot weeks, spot sample -0.244 -> weeks -0.04,
+    contracts -0.08. Threshold 20 (317 weeks): LV7 spot +0.758 (2.60), perp total +0.260 (0.89), funding -0.274 (-4.30);
+    LV14 funding -0.299 (-4.20), LV30 -0.342 (-4.35); 2026 funding LV7 -0.94 per week.
+  C margin (spot-sample perp total LV7/14/30; full net MOM/LV/FUND): 1x +0.20/+0.38/+0.46, +0.62/-0.08/+0.40; 1x mm 2.5%
+    +0.18/+0.37/+0.41, +0.61/-0.12/+0.35; 2x +0.32/+0.48/+0.53 (t 1.05/1.63/1.90), +0.54/-0.22/+0.33; 3x +0.40/+0.49/
+    +0.52; cross +0.40 (1.36)/+0.59 (2.11)/+0.60 (2.26) -> "perpetual premium not significant" holds for isolated margin
+    up to 3x, not for the 14- and 30-day windows in a cross-margined book.
+  D spot sample LV7: long default -0.105, long excess +0.025 (t 0.87), short default +0.104, short excess -0.267 (-3.71);
+    LV14 short excess -0.284 (-3.62); LV30 -0.323 (-3.65); MOM long excess +0.317 (3.80); FUND long excess +0.474 (5.50).
+  E top-1% share of |funding contributions|: MOM 33% (random median 35%), LV 31% (35%), FUND 30% (34%); price 8% (random
+    8%) -> concentration is a property of funding itself, not of the factors; funding far more concentrated than price.
+  F next-week price part by ex-ante excess funding quintile: Q1 -0.146, Q2 +1.084, Q3 +1.214, Q4 +0.354, Q5 -0.147;
+    Q1-Q5 +0.001 (t 0.00) -> no analogue of the equity shorting premium.
+  G index 30-min average vs mark-close proxy for the 9 stops: max |difference| 5.3% (LUNA), ALPACA +0.2% -> proxy stays.
+  H 188 of 298 contracts ever have an interval below 8h; first change 2021 1, 2022 3, 2023 30, 2024 47, 2025 87, 2026 20.
+  I weekly SD / Sharpe / max DD: MOM 6.10% / 0.74 / 36%; LV 5.88% / -0.10 / 87%; FUND 5.44% / 0.53 / 64%. Mean Spearman:
+    MOM-surge +0.55, LV-age +0.48, LV-surge -0.31, MOM-LV -0.25, others |r| <= 0.11.
+  J net block bootstrap: MOM [+0.26, +1.07] (8 wk) [+0.28, +1.07] (26 wk); LV [-0.71, +0.47]; FUND [-0.16, +0.94].
+
+==== 2026-11-20 PRE-REGISTERED paper_v7 (response to blind review of v2.3, 论文/盲审意见-2026-11-20-v2.3.md; written before computation) ====
+DESCRIPTION on seen data, paper_v5 main specification unless stated. Seen before: all paper_v3-v6 results.
+M1 Funding tails: LV 7/14/30 spot-sample funding component and full-universe LV / MOM funding parts without the top 1% and
+   5% of contract-weeks by |funding| (removed before sorting); median and 10%-trimmed mean of the weekly funding series.
+   Wording: the abstract says the LV cost "survives removal of funding tails" only if the LV-7d spot-sample funding
+   component keeps NW t <= -2 without the top 1% by |funding|; otherwise it says how much is left.
+M2 Margin on spot: the spot short legs get the same isolated 1x rule using spot daily highs (a short is liquidated, -100%,
+   if a daily high reaches 2x entry). Decomposition on the spot sample: spot frictionless -> spot with margin -> perp with
+   margin, and perp without liquidation (floored). Figure 1 redrawn with the perp line without liquidation.
+M3c Event study around each contract's first shortened settlement interval (contracts in the top-30 universe at the event
+   or within 4 weeks): weekly sum of excess funding rates, funding per hour, price return, weeks -8..+8; mean across
+   events with NW-style t over events. Text: if excess funding is already extreme in weeks -4..-1, the interval change is
+   described as marking contracts already in a squeeze (selection on the outcome); either way contribution (iii) becomes
+   descriptive.
+M4 Overlap: LV short-leg funding from legs also in the MOM long leg that week vs legs not in it; MOM long-leg funding
+   from legs also in the LV short leg vs not.
+M5 Price prediction by funding: quintile Q1-Q5 price difference with 8-week block bootstrap interval and MDE (2.8 x SE);
+   by year; versions (a) unlevered capped at +1000% (as v6), (b) isolated 1x with liquidation, (c) quintiles on the raw
+   rate sum instead of excess; and total return (price + funding) of Q1 vs Q5. Reconcile with FUND's price part.
+M6 Inference: acf lags 1-4 and i.i.d. t of MOM / LV / FUND net and of the LV-7d funding component; which claims pass
+   |t| >= 3 (Harvey, Liu and Zhu 2016) with NW4, NW26 and i.i.d.; specification-curve figure from the reported tables.
+M7 Costs by liquidity: per-side cost 0.10% / 0.20% / 0.40% for the top / middle / bottom third of each week's universe
+   by 30-day quote volume; maintenance margin 5% variant of the 1x isolated rule.
+M8 Fama-MacBeth extended with 1-week return, MAX (largest daily return over 30 days), Amihud illiquidity (30-day mean of
+   |return| / quote volume) and 30-day quote volume (size proxy), all as ranks.
+Text: Grobys and Sapkota (2019) cited correctly (they find no significant momentum); "funding costs LV" stated as an
+expected sign with the new information in the magnitude; concentration sentence removed from the abstract;
+settlement-interval result labelled descriptive / selection on outcome unless M3c shows otherwise; unlock wording based
+on the 10% vs 8% shares; momentum spot premium "imprecise"; minor issues of the review fixed.
+Script paper_v7.py -> results/paper/v7.txt.
+CLARIFICATION paper_v7 M7 (2026-11-20, after a crash, before any M7 number was printed): a contract that leaves the universe
+  while being closed has no volume rank that week; it is charged the highest tier (0.40% per side).
+RESULT paper_v7 (2026-11-20, results/paper/v7.txt; main check MOM +0.623, LV -0.079, FUND +0.398):
+  M1 without top 1% |funding| contract-weeks: LV7 spot funding -0.080 (NW t -4.52), LV14 -0.090, LV30 -0.103; LV full -0.067
+    (-3.90); MOM +0.106 (4.80). Top 5%: LV7 -0.021 (-3.23), LV full -0.004 (-0.62), MOM +0.030. Weekly LV7 funding: mean
+    -0.244, median -0.053, 10%-trimmed -0.101 -> rule M1: "survives" (t <= -2) but about two thirds of the cost come from
+    the top 1% of contract-weeks; the abstract states both.
+  M2 LV7: spot frictionless +0.692 (2.36) -> spot with 1x margin +0.510 (1.68; 22 spot shorts liquidated) -> perp without
+    liquidation +0.426 (1.46) -> perp with liquidation +0.199 (0.65); LV14 +0.904 / +0.724 / +0.618 / +0.384; LV30
+    +1.031 / +0.828 / +0.692 / +0.461.
+  M3c 25 events: excess funding weeks -4..-1 mean -1.30%/wk, event week -13.5% (price +66%), weeks +1..+4 -4.10%/wk;
+    settlements per week 21 -> 50-67 -> the change marks contracts already in a squeeze; descriptive only.
+  M4 LV short-leg funding from legs also in MOM long -0.300 (t -6.52), other legs +0.008 (0.55); MOM long-leg funding from
+    legs also in LV short +0.357 (5.65), other legs +0.046 (2.52) -> one phenomenon.
+  M5 Q1-Q5 price +0.001 (t 0.00), boot [-1.23, +1.18], MDE 1.86; identical for raw-sum sort (excess = raw - constant over 7
+    days) and with long liquidation; by year 2020 +1.19 ... 2026 -5.58; total return Q1-Q5 +1.32 (t 2.13). FUND price part
+    -0.194 main (long -0.071, short -0.122 incl. liquidations) vs +0.001 cross-margined -> reconciled.
+  M6 i.i.d. t: MOM net +1.82 (NW4 2.33, acf1 -0.18); LV7 spot funding -6.48 (NW4 -4.10, NW26 -2.64); MOM funding +7.07
+    (4.66, 2.57). |t| >= 3: LV funding and MOM funding with i.i.d. and NW4, not NW26; MOM net never.
+    (The v7.txt line labelled "LV7 spot funding" is the LV30 series - a variable overwritten in the M2 loop; LV7 numbers
+    recomputed separately: mean -0.2436, iid t -6.48, NW4 -4.10, NW26 -2.64, acf1 +0.46.)
+  M7 tiered costs 0.10/0.20/0.40%: MOM +0.484 (1.81), LV -0.243 (-0.70), FUND +0.231 (0.73). mm 5%: LV7 perp total +0.166,
+    MOM net +0.597 (2.23).
+  M8 extended FM (funding part): MOM +0.297 (1.74), LV -0.292 (-1.86), FUND +1.368 (5.73), rev1 +0.505 (2.94), Amihud +1.483
+    (2.74), size +0.921 (2.54); price part: MOM +1.525 (1.53), perp-only +1.201 (1.91), others |t| < 1.8.

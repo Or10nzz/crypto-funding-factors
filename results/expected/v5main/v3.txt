@@ -1,0 +1,147 @@
+paper_v3 2026-11-20: 317 weeks 2020-09-28..2026-10-19
+
+R0 data rules
+  trading-stop contract-weeks in the top-30 universe: 9
+    LUNAUSDT         week 2022-05-09 last traded hour ends 2022-05-12 16:00
+    FTTUSDT          week 2022-11-14 last traded hour ends 2022-11-14 05:00
+    COCOSUSDT        week 2023-05-22 last traded hour ends 2023-05-25 10:00
+    MATICUSDT        week 2024-09-02 last traded hour ends 2024-09-04 09:00
+    BNXUSDT          week 2025-03-17 last traded hour ends 2025-03-17 10:00
+    ALPACAUSDT       week 2025-04-28 last traded hour ends 2025-04-30 10:00
+    HIFIUSDT         week 2025-09-29 last traded hour ends 2025-10-03 10:00
+    TONUSDT          week 2026-06-22 last traded hour ends 2026-06-23 10:00
+    VANRYUSDT        week 2026-08-03 last traded hour ends 2026-08-07 10:00
+  contract-weeks with spot trading at d: 9049 of 9510 (95.2%); static map would say 9174
+  spot-test weeks (>= 24 contracts with a spot return): 303
+  capped legs (main rule): MOM 0, LV 0, FUND 0
+
+B1 Table 3 under R0 (spot vs perp, same picks, contracts with spot trading that week)
+  LV 7d                              wks 303 spot +0.692% (NW t +2.36)  perp price +0.691% (+2.37)  perp total +0.199% (+0.65)  funding -0.244% (NW t -4.10)  [long-leg funding -0.080%, short-leg -0.163%]  boot5-95 spot [+0.211%,+1.195%] perp total [-0.325%,+0.688%] funding [-0.368%,-0.136%]
+  LV 14d                             wks 303 spot +0.904% (NW t +3.21)  perp price +0.906% (+3.22)  perp total +0.384% (+1.29)  funding -0.269% (NW t -4.02)  [long-leg funding -0.088%, short-leg -0.181%]  boot5-95 spot [+0.416%,+1.343%] perp total [-0.152%,+0.833%] funding [-0.401%,-0.148%]
+  LV 30d                             wks 303 spot +1.031% (NW t +3.96)  perp price +1.029% (+3.97)  perp total +0.461% (+1.65)  funding -0.319% (NW t -4.10)  [long-leg funding -0.100%, short-leg -0.219%]  boot5-95 spot [+0.572%,+1.404%] perp total [-0.024%,+0.861%] funding [-0.474%,-0.180%]
+  MOM 30d                            wks 303 spot -0.025% (NW t -0.10)  perp price -0.030% (-0.12)  perp total +0.218% (+0.87)  funding +0.284% (NW t +4.15)  [long-leg funding +0.212%, short-leg +0.073%]  boot5-95 spot [-0.415%,+0.441%] perp total [-0.154%,+0.645%] funding [+0.162%,+0.415%]
+  FUND                               wks 303 spot +0.140% (NW t +0.49)  perp price +0.148% (+0.51)  perp total +0.533% (+1.81)  funding +0.529% (NW t +7.13)  [long-leg funding +0.369%, short-leg +0.160%]  boot5-95 spot [-0.324%,+0.690%] perp total [+0.074%,+1.092%] funding [+0.400%,+0.675%]
+B1 Table 4 under R0 (full universe)
+  MOM                                wks 317 net +0.623% (NW t +2.33)  price +0.222% (+0.83)  funding +0.487% (+4.66)  [lp +0.266% sp -0.044% lf +0.403% sf +0.084%]
+  LV                                 wks 317 net -0.079% (NW t -0.23)  price +0.403% (+1.22)  funding -0.369% (-4.76)  [lp +0.470% sp -0.068% lf -0.077% sf -0.292%]
+  FUND                               wks 317 net +0.398% (NW t +1.26)  price -0.194% (-0.57)  funding +0.693% (+6.34)  [lp -0.071% sp -0.122% lf +0.552% sf +0.141%]
+  MOM no leg cap (cross-margined)    wks 317 net +0.742% (NW t +2.64)  price +0.365% (+1.35)  funding +0.463% (+4.59)  [lp +0.266% sp +0.099% lf +0.403% sf +0.060%]
+  LV no leg cap (cross-margined)     wks 317 net +0.144% (NW t +0.42)  price +0.726% (+2.21)  funding -0.468% (-4.36)  [lp +0.470% sp +0.255% lf -0.077% sf -0.392%]
+  FUND no leg cap (cross-margined)   wks 317 net +0.560% (NW t +1.81)  price +0.001% (+0.00)  funding +0.661% (+6.11)  [lp -0.071% sp +0.072% lf +0.552% sf +0.109%]
+
+B2 robustness of Tables 3/4
+ [v1.0 rule]
+  spot test LV                       wks 303 spot +0.692% (NW t +2.36)  perp price +0.690% (+2.37)  perp total +0.426% (+1.46)  funding -0.266% (NW t -4.13)  [long-leg funding -0.080%, short-leg -0.186%]
+  spot test MOM                      wks 303 spot -0.025% (NW t -0.10)  perp price -0.029% (-0.11)  perp total +0.253% (+1.01)  funding +0.283% (NW t +4.11)  [long-leg funding +0.212%, short-leg +0.071%]
+  spot test FUND                     wks 303 spot +0.140% (NW t +0.49)  perp price +0.148% (+0.51)  perp total +0.675% (+2.37)  funding +0.527% (NW t +7.07)  [long-leg funding +0.369%, short-leg +0.158%]
+  full MOM                           wks 317 net +0.853% (NW t +2.88)  price +0.477% (+1.67)  funding +0.462% (+4.58)  [lp +0.376% sp +0.101% lf +0.402% sf +0.060%]
+  full LV                            wks 317 net +0.360% (NW t +1.12)  price +0.924% (+2.87)  funding -0.451% (-4.46)  [lp +0.470% sp +0.454% lf -0.077% sf -0.374%]
+  full FUND                          wks 317 net +0.756% (NW t +2.44)  price +0.194% (+0.59)  funding +0.664% (+6.14)  [lp +0.033% sp +0.161% lf +0.553% sf +0.111%]
+ [ex ALPACA week]
+  spot test LV                       wks 302 spot +0.688% (NW t +2.34)  perp price +0.687% (+2.35)  perp total +0.193% (+0.63)  funding -0.244% (NW t -4.10)  [long-leg funding -0.081%, short-leg -0.163%]
+  spot test MOM                      wks 302 spot -0.021% (NW t -0.08)  perp price -0.026% (-0.10)  perp total +0.222% (+0.89)  funding +0.285% (NW t +4.15)  [long-leg funding +0.212%, short-leg +0.073%]
+  spot test FUND                     wks 302 spot +0.142% (NW t +0.49)  perp price +0.149% (+0.52)  perp total +0.536% (+1.81)  funding +0.530% (NW t +7.13)  [long-leg funding +0.370%, short-leg +0.160%]
+  full MOM                           wks 316 net +0.585% (NW t +2.15)  price +0.177% (+0.65)  funding +0.494% (+4.71)  [lp +0.234% sp -0.057% lf +0.409% sf +0.084%]
+  full LV                            wks 316 net -0.058% (NW t -0.17)  price +0.412% (+1.24)  funding -0.357% (-4.67)  [lp +0.473% sp -0.061% lf -0.077% sf -0.280%]
+  full FUND                          wks 316 net +0.356% (NW t +1.10)  price -0.243% (-0.70)  funding +0.701% (+6.39)  [lp -0.115% sp -0.127% lf +0.559% sf +0.142%]
+ [ex top 1% |r| (> 68%)]
+  spot test LV                       wks 302 spot +0.801% (NW t +3.66)  perp price +0.801% (+3.68)  perp total +0.377% (+1.60)  funding -0.225% (NW t -4.10)  [long-leg funding -0.084%, short-leg -0.140%]
+  spot test MOM                      wks 302 spot -0.349% (NW t -1.52)  perp price -0.355% (-1.55)  perp total -0.114% (-0.51)  funding +0.250% (NW t +4.00)  [long-leg funding +0.174%, short-leg +0.077%]
+  spot test FUND                     wks 302 spot -0.144% (NW t -0.58)  perp price -0.139% (-0.56)  perp total +0.238% (+0.94)  funding +0.488% (NW t +7.10)  [long-leg funding +0.327%, short-leg +0.162%]
+  full MOM                           wks 317 net -0.086% (NW t -0.39)  price -0.406% (-1.70)  funding +0.408% (+4.57)  [lp -0.635% sp +0.229% lf +0.325% sf +0.084%]
+  full LV                            wks 317 net +0.365% (NW t +1.28)  price +0.801% (+2.87)  funding -0.321% (-4.62)  [lp +0.214% sp +0.587% lf -0.081% sf -0.241%]
+  full FUND                          wks 317 net +0.023% (NW t +0.08)  price -0.469% (-1.56)  funding +0.596% (+6.65)  [lp -0.706% sp +0.237% lf +0.454% sf +0.143%]
+ [ex top 5% |r| (> 35%)]
+  spot test LV                       wks 286 spot +1.170% (NW t +6.79)  perp price +1.172% (+6.82)  perp total +0.909% (+5.05)  funding -0.169% (NW t -4.23)  [long-leg funding -0.081%, short-leg -0.088%]
+  spot test MOM                      wks 286 spot -0.669% (NW t -3.26)  perp price -0.675% (-3.29)  perp total -0.515% (-2.61)  funding +0.160% (NW t +4.20)  [long-leg funding +0.097%, short-leg +0.064%]
+  spot test FUND                     wks 286 spot -0.393% (NW t -2.01)  perp price -0.388% (-1.98)  perp total -0.039% (-0.20)  funding +0.402% (NW t +8.98)  [long-leg funding +0.247%, short-leg +0.155%]
+  full MOM                           wks 316 net -0.750% (NW t -3.83)  price -0.950% (-4.31)  funding +0.293% (+4.30)  [lp -1.340% sp +0.390% lf +0.210% sf +0.083%]
+  full LV                            wks 316 net +1.005% (NW t +4.79)  price +1.360% (+6.37)  funding -0.238% (-4.65)  [lp +0.105% sp +1.256% lf -0.087% sf -0.151%]
+  full FUND                          wks 316 net -0.070% (NW t -0.33)  price -0.518% (-2.14)  funding +0.554% (+7.05)  [lp -1.089% sp +0.571% lf +0.373% sf +0.182%]
+  -> rule B: LV-7d funding NW t <= -2 under R0, ex-ALPACA and ex-top-1%: True
+
+A Momentum amounts and funding neutrality
+  MOM 30d-volume universe            gross +0.708% [+0.367%,+1.156%]  price +0.222% [-0.119%,+0.671%]  funding +0.487% [+0.299%,+0.693%]  funding share 69% [37%,140%]
+  MOM 90d-volume universe            gross +0.915% [+0.494%,+1.335%]  price +0.696% [+0.286%,+1.125%]  funding +0.219% [+0.106%,+0.335%]  funding share 24% [11%,47%]
+  MOM 90d universe                   wks 317 net +0.837% (NW t +3.32)  price +0.696% (+2.76)  funding +0.219% (+3.47)  [lp +0.586% sp +0.110% lf +0.137% sf +0.082%]
+  MOM residual on funding rank       wks 317 net +0.549% (NW t +1.92)  price +0.226% (+0.78)  funding +0.418% (+4.61)  [lp +0.243% sp -0.017% lf +0.341% sf +0.077%]  neutral False -> funding cannot be neutralised within 30 contracts
+  MOM residual on funding rank       gross +0.643% [+0.228%,+1.154%]  price +0.226% [-0.201%,+0.730%]  funding +0.418% [+0.240%,+0.596%]  funding share 65% [31%,189%]
+  MOM 5x5 dependent sort             wks 317 net +1.126% (NW t +3.68)  price +0.871% (+3.00)  funding +0.375% (+4.41)  [lp +0.909% sp -0.038% lf +0.292% sf +0.083%]  neutral False -> funding cannot be neutralised within 30 contracts
+  MOM 5x5 dependent sort             gross +1.246% [+0.801%,+1.803%]  price +0.871% [+0.482%,+1.360%]  funding +0.375% [+0.215%,+0.538%]  funding share 30% [18%,45%]
+  MOM residual (90d universe)        wks 317 net +0.827% (NW t +3.27)  price +0.718% (+2.85)  funding +0.198% (+3.21)  [lp +0.582% sp +0.136% lf +0.116% sf +0.082%]
+  spanning on FUND's funding component: alpha (mkt only) +0.636% (NW t +2.40); with FUND funding +0.457% (NW t +1.47), loading +0.26 (t +0.76); alpha drop +0.179% boot5-95 [-0.145%,+0.626%]
+
+C Table 2 with the offset ex-ante window (d-14, d-7] (rate sum, + = longs paid)
+  MOM same-window  Q1 ex-ante -0.130% (NW t -1.07) realised +0.121% (NW t +1.47)
+  MOM same-window  Q2 ex-ante +0.149% (NW t +2.46) realised +0.170% (NW t +2.85)
+  MOM same-window  Q3 ex-ante +0.155% (NW t +2.70) realised +0.185% (NW t +3.20)
+  MOM same-window  Q4 ex-ante +0.006% (NW t +0.07) realised +0.096% (NW t +1.21)
+  MOM same-window  Q5 ex-ante -1.007% (NW t -4.05) realised -0.806% (NW t -3.48)
+  MOM offset       Q1 ex-ante -0.269% (NW t -1.70) realised +0.121% (NW t +1.47)
+  MOM offset       Q2 ex-ante +0.134% (NW t +2.06) realised +0.170% (NW t +2.85)
+  MOM offset       Q3 ex-ante +0.121% (NW t +1.85) realised +0.185% (NW t +3.20)
+  MOM offset       Q4 ex-ante -0.017% (NW t -0.22) realised +0.096% (NW t +1.21)
+  MOM offset       Q5 ex-ante -1.012% (NW t -4.38) realised -0.806% (NW t -3.48)
+  LV same-window  Q1 ex-ante -1.239% (NW t -4.30) realised -0.781% (NW t -3.26)
+  LV same-window  Q2 ex-ante -0.007% (NW t -0.08) realised +0.067% (NW t +0.84)
+  LV same-window  Q3 ex-ante +0.123% (NW t +2.01) realised +0.169% (NW t +2.64)
+  LV same-window  Q4 ex-ante +0.133% (NW t +2.32) realised +0.158% (NW t +2.53)
+  LV same-window  Q5 ex-ante +0.162% (NW t +2.91) realised +0.152% (NW t +2.74)
+  LV offset       Q1 ex-ante -0.985% (NW t -3.89) realised -0.781% (NW t -3.26)
+  LV offset       Q2 ex-ante -0.223% (NW t -1.99) realised +0.067% (NW t +0.84)
+  LV offset       Q3 ex-ante +0.022% (NW t +0.28) realised +0.169% (NW t +2.64)
+  LV offset       Q4 ex-ante +0.042% (NW t +0.56) realised +0.158% (NW t +2.53)
+  LV offset       Q5 ex-ante +0.101% (NW t +1.58) realised +0.152% (NW t +2.74)
+  -> rule C: LV Q1 offset ex-ante NW t -3.89; partly mechanical = False
+
+D Overlap of legs and Fama-MacBeth (top 30, R0)
+  MOM long & LV short 49%  MOM long & FUND long 33%  LV short & FUND long 32%  (share of 6 names, weekly mean)
+  dep = price: MOM +2.055% (t +2.16)  LV +0.986% (t +0.94)  FUND +0.511% (t +0.72)  surge -2.187% (t -2.01)  age +1.128% (t +1.13)  perponly +0.866% (t +1.34)
+  dep = fund : MOM +0.547% (t +2.99)  LV -0.470% (t -3.00)  FUND +1.370% (t +5.81)  surge +0.221% (t +1.46)  age -0.078% (t -0.51)  perponly +0.361% (t +2.18)
+  dep = total: MOM +2.602% (t +2.64)  LV +0.516% (t +0.49)  FUND +1.881% (t +2.67)  surge -1.965% (t -1.79)  age +1.050% (t +1.03)  perponly +1.228% (t +1.87)
+  (slopes = return difference from lowest to highest rank; fund = funding received by a long; perponly dummy)
+
+E Spot-free (perp-only, weekly flag) LV short legs, strategy sign (+ = gain)
+  perp-only leg-weeks 260 (14%): price -0.603% (median +2.862%), funding -3.074%; spot-pair legs price +0.687%, funding -0.420%
+  weekly difference perp-only minus spot-pair (107 weeks with both): price -6.025% (NW t -2.38), funding -0.372% (NW t -0.43) -> rule E funding concentrated in perp-only = False
+  volume surge quintiles (Q5 = biggest 30d/90d spike):
+    Q1 ex-ante +0.176% (NW t +3.06) realised +0.176% (NW t +2.68)
+    Q2 ex-ante +0.151% (NW t +2.64) realised +0.194% (NW t +3.38)
+    Q3 ex-ante +0.096% (NW t +1.32) realised +0.148% (NW t +2.14)
+    Q4 ex-ante -0.059% (NW t -0.64) realised +0.085% (NW t +1.14)
+    Q5 ex-ante -1.193% (NW t -4.10) realised -0.837% (NW t -3.29)
+
+F Inference: CAPM, winsorised, log
+  MOM  CAPM alpha +0.636% (NW t +2.40) beta -0.027 (NW t -0.89)  winsorised 1/99 net +0.428% (t +1.89)  log1p net +0.441% (t +1.71)
+  LV   CAPM alpha -0.029% (NW t -0.09) beta -0.098 (NW t -2.13)  winsorised 1/99 net +0.306% (t +1.19)  log1p net -0.253% (t -0.73)
+  FUND CAPM alpha +0.380% (NW t +1.24) beta +0.035 (NW t +1.15)  winsorised 1/99 net +0.429% (t +1.65)  log1p net +0.252% (t +0.80)
+
+G Robustness
+ [MOM]
+  top30 10/10                        wks 317 net +0.324% (NW t +1.79)  price +0.085% (+0.46)  funding +0.310% (+4.54)  [lp +0.226% sp -0.141% lf +0.223% sf +0.087%]
+  top50 6/6                          wks 306 net +0.590% (NW t +1.80)  price +0.127% (+0.39)  funding +0.559% (+4.62)  [lp -0.016% sp +0.143% lf +0.493% sf +0.066%]
+  top50 10/10                        wks 306 net +0.464% (NW t +1.94)  price +0.152% (+0.66)  funding +0.395% (+4.69)  [lp +0.134% sp +0.018% lf +0.327% sf +0.068%]
+  top100 10/10                       wks 279 net +0.612% (NW t +2.06)  price +0.264% (+0.91)  funding +0.442% (+5.06)  [lp -0.204% sp +0.468% lf +0.439% sf +0.003%]
+  top30 6/6 volume-weighted          wks 317 net +0.989% (NW t +3.02)  price +0.584% (+1.98)  funding +0.491% (+3.82)  [lp +0.559% sp +0.024% lf +0.416% sf +0.074%]
+  top30 6/6, perp-only 0.30%/side    wks 317 net +0.613% (NW t +2.30)  price +0.222% (+0.83)  funding +0.487% (+4.66)  [lp +0.266% sp -0.044% lf +0.403% sf +0.084%]
+  first half (< 2023-09-01)          wks 153 net +0.739% (NW t +2.18)  price +0.706% (+2.10)  funding +0.115% (+2.55)  [lp +0.785% sp -0.079% lf -0.020% sf +0.135%]
+  second half                        wks 164 net +0.515% (NW t +1.27)  price -0.230% (-0.58)  funding +0.833% (+4.78)  [lp -0.219% sp -0.011% lf +0.797% sf +0.036%]
+ [LV]
+  top30 10/10                        wks 317 net -0.066% (NW t -0.27)  price +0.269% (+1.10)  funding -0.242% (-4.80)  [lp +0.450% sp -0.181% lf -0.077% sf -0.165%]
+  top50 6/6                          wks 306 net -0.039% (NW t -0.10)  price +0.525% (+1.51)  funding -0.433% (-5.11)  [lp +0.443% sp +0.081% lf -0.069% sf -0.364%]
+  top50 10/10                        wks 306 net -0.075% (NW t -0.25)  price +0.354% (+1.24)  funding -0.314% (-4.74)  [lp +0.400% sp -0.046% lf -0.073% sf -0.240%]
+  top100 10/10                       wks 279 net -0.217% (NW t -0.70)  price +0.293% (+1.00)  funding -0.376% (-5.46)  [lp -0.025% sp +0.318% lf -0.024% sf -0.352%]
+  top30 6/6 volume-weighted          wks 317 net -0.343% (NW t -0.93)  price +0.240% (+0.68)  funding -0.471% (-4.30)  [lp +0.497% sp -0.257% lf -0.102% sf -0.369%]
+  top30 6/6, perp-only 0.30%/side    wks 317 net -0.090% (NW t -0.26)  price +0.403% (+1.22)  funding -0.369% (-4.76)  [lp +0.470% sp -0.068% lf -0.077% sf -0.292%]
+  first half (< 2023-09-01)          wks 153 net +0.041% (NW t +0.08)  price +0.263% (+0.56)  funding -0.103% (-2.53)  [lp +0.872% sp -0.608% lf -0.135% sf +0.032%]
+  second half                        wks 164 net -0.190% (NW t -0.39)  price +0.533% (+1.15)  funding -0.617% (-4.81)  [lp +0.096% sp +0.437% lf -0.023% sf -0.594%]
+ [FUND]
+  top30 10/10                        wks 317 net +0.422% (NW t +1.86)  price +0.057% (+0.24)  funding +0.452% (+6.63)  [lp +0.184% sp -0.127% lf +0.308% sf +0.144%]
+  top50 6/6                          wks 306 net +0.679% (NW t +1.84)  price -0.177% (-0.44)  funding +0.964% (+6.74)  [lp -0.172% sp -0.005% lf +0.801% sf +0.163%]
+  top50 10/10                        wks 306 net +0.333% (NW t +1.18)  price -0.268% (-0.90)  funding +0.699% (+6.62)  [lp -0.161% sp -0.107% lf +0.533% sf +0.166%]
+  top100 10/10                       wks 279 net +0.412% (NW t +1.28)  price -0.458% (-1.31)  funding +0.980% (+6.78)  [lp -0.670% sp +0.212% lf +0.835% sf +0.145%]
+  top30 6/6 volume-weighted          wks 317 net +0.651% (NW t +1.88)  price +0.027% (+0.08)  funding +0.726% (+5.35)  [lp +0.036% sp -0.009% lf +0.588% sf +0.138%]
+  top30 6/6, perp-only 0.30%/side    wks 317 net +0.385% (NW t +1.22)  price -0.194% (-0.57)  funding +0.693% (+6.34)  [lp -0.071% sp -0.122% lf +0.552% sf +0.141%]
+  first half (< 2023-09-01)          wks 153 net +0.710% (NW t +1.60)  price +0.402% (+0.91)  funding +0.408% (+9.05)  [lp +0.714% sp -0.312% lf +0.167% sf +0.241%]
+  second half                        wks 164 net +0.106% (NW t +0.24)  price -0.749% (-1.50)  funding +0.960% (+4.95)  [lp -0.804% sp +0.055% lf +0.912% sf +0.048%]
+  share of contract-weeks with more than 21 settlements (interval < 8h): 2020 0%  2021 0%  2022 0%  2023 2%  2024 22%  2025 37%  2026 44%
