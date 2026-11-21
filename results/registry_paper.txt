@@ -385,3 +385,141 @@ RESULT paper_v7 (2026-11-20, results/paper/v7.txt; main check MOM +0.623, LV -0.
     MOM net +0.597 (2.23).
   M8 extended FM (funding part): MOM +0.297 (1.74), LV -0.292 (-1.86), FUND +1.368 (5.73), rev1 +0.505 (2.94), Amihud +1.483
     (2.74), size +0.921 (2.54); price part: MOM +1.525 (1.53), perp-only +1.201 (1.91), others |t| < 1.8.
+==== 2026-11-21 PRE-REGISTERED paper_v8 (revision pack for funding_paper v2.5 / FUT-25-00943; 论文/修改方案.md A3-A6; written before any computation) ====
+Purpose: material for a revision or resubmission. The submitted manuscript is not changed. Every result below is
+reported whatever its sign. Base: paper_v5 main specification (top 30, 30-day quote volume, Mondays 00:00 UTC,
+6/6 legs, isolated 1x margin with hourly mark-price liquidation, mark-weighted funding, 0.10% per side), 317 weeks
+2020-09-28..2026-10-19, unless stated. "Excess funding" = funding minus the default interest component (0.01% per
+8h, prorated), as in paper_v6. Sign convention: funding received by a long, % of entry notional. Inference: weekly
+series, Newey-West 4 lags (26 lags also reported); Fama-MacBeth slopes on cross-sectional ranks scaled to [0,1].
+No multiple-testing correction; 9 registered criteria (P1, P1b, P2a, P2b, P3, B1, B2, F1, F2) are reported together.
+
+A3 POSITIONING (data/hist/metrics: hourly sum_open_interest in base units and count_long_short_ratio = global
+long/short ACCOUNT ratio, Binance public archive; most contracts from 2021-12-01, archive ends 2026-10-08).
+  Formation variables at Monday D, using only rows stamped before D:
+    dOI  = ln(OI at the last hour before D / OI 168 hours earlier)
+    GLS  = mean count_long_short_ratio over the 24 hours before D   (lower = more short accounts)
+    dGLS = ln(GLS / the same 24-hour mean 7 days earlier)
+  A contract-week enters A3 if all three exist; coverage (share of universe contract-weeks, by year) is reported.
+  Weeks: Mondays with D-8d >= 2021-12-01 and D-1h <= 2026-10-08.
+  P1  (positioning and contemporaneous funding). Weekly FM regression over the universe:
+      ex-ante excess funding (7 days before D) on rank(GLS), rank(dGLS), rank(dOI),
+      controls rank(7-day vol), rank(30-day momentum), rank(30-day quote volume).
+      Holds if the GLS slope > 0 with t >= 2 (fewer long accounts <-> more negative funding).
+      dGLS and dOI slopes reported, no sign registered.
+  P1b (positioning predicts next-week funding beyond persistence). Same regression with next-week mark-weighted
+      excess funding as dependent variable and rank(ex-ante excess funding) added as a control.
+      Holds if the GLS slope > 0 with t >= 2.
+  P3  (crowding within volatile contracts). Each week, among the 10 most volatile universe contracts (7-day vol,
+      i.e. the low-volatility short-leg candidates), CROWDED = dOI above and GLS below the weekly median of those 10.
+      Series = mean next-week excess funding of CROWDED minus mean of the others (weeks with >= 2 in each group).
+      Holds if the mean < 0 with t <= -2.
+
+P2 ARBITRAGE CONSTRAINT (spot flag and spot quote volume from data/spot/klines; perp-only = no Binance spot pair
+trading at D, as in paper_v3).
+  HARD = perp-only, or spot 30-day quote volume / perp 30-day quote volume in the bottom third of the week's
+  universe contracts that have spot. EASY = the rest.
+  P2a (asymmetry). FM slope of next-week excess funding on ex-ante excess funding (levels, %), estimated separately
+      on contract-weeks with negative and with positive ex-ante excess funding.
+      Holds if (negative-side slope - positive-side slope) > 0 with t >= 2 (weekly difference series).
+  P2b (constraint). Among contract-weeks with ex-ante excess funding in the universe bottom quintile, mean next-week
+      excess funding of HARD minus EASY, weekly series (weeks with >= 1 in each group).
+      Holds if the mean < 0 with t <= -2.
+  Already known and to be reported alongside: within short legs, perp-only vs spot funding difference -0.37
+  (t -0.43, paper_v5) - evidence against P2b.
+
+A4 SECOND EXCHANGE (data/bybit_funding: Bybit public funding history, rate per settlement; timestamps < 2019-01-01
+dropped as invalid).
+  Picks unchanged (Binance data). For each leg, Bybit funding over (entry, exit] = sum of Bybit rates x Binance
+  1h mark open / entry price at the Bybit settlement hour; excess = minus Bybit default interest (0.01% per 8h,
+  prorated to the Bybit interval). A leg is COVERED if Bybit has a settlement in the 24 hours after entry and in
+  the 24 hours before exit and no gap longer than 2x its modal interval inside the week.
+  Coverage reported (share of leg-weeks, by year, by leg). Comparison on covered legs only, weights renormalised
+  within each leg; the Binance figure is recomputed on exactly the same covered legs.
+  B1  LV 7-day, spot sample: short-leg excess funding on Bybit. Holds if mean < 0 with t <= -2.
+  B2  Same quantity: Bybit / Binance ratio of means in [0.5, 1.5] (point estimate; 8-week block-bootstrap interval
+      reported).
+  Also reported, no criterion: MOM long-leg excess funding (Bybit vs Binance), LV full universe, by year.
+
+A5 TAILS AND 2026
+  Descriptive (no criterion): LV 7-day spot-sample funding component leaving out one calendar year at a time
+  (2020..2026); share of the cumulative funding component from the 10 most negative weeks.
+  Ex-ante filter: each week, drop from the SHORT candidates of LV (7-day; spot sample and full universe) the
+  contracts in the bottom decile of ex-ante excess funding among the week's universe; then short the 6 most
+  volatile remaining. Long leg unchanged.
+  F1  Holds if the spot-sample funding component magnitude falls by at least half relative to main (-0.24).
+  F2  Holds if the filtered LV net return (full universe, isolated margin) is higher than main (-0.08), with
+      t >= 2 for the weekly difference series (filtered minus main).
+  Reported, no criterion: filtered net in the spot sample and cross-margined; turnover.
+
+A6 COSTS AND CAPACITY (no criterion; descriptive)
+  Per-side cost on each changed leg = 0.05% taker fee + half-spread + impact.
+  half-spread: Abdi and Ranaldo (2017) close-high-low estimator from 30 daily bars before D (negatives set to 0),
+  halved.  impact = Y * sigma_d * sqrt(Q / V_d), sigma_d = std of 30 daily returns before D, V_d = mean daily
+  quote volume over 30 days before D, Q = leg notional = AUM / 12, Y in {0.5, 1}.
+  AUM grid: 1e4, 1e5, 1e6, 1e7, 1e8 USD. Reported for MOM, LV, FUND (full universe, main margin): net return per
+  AUM, and the break-even AUM (log-linear interpolation; ">1e8" or "<1e4" if outside). Also reported: the
+  average estimated per-side cost at AUM -> 0 vs the 0.10% assumption.
+  Not modelled: historical tiered maintenance margins (only current brackets exist), ADL.
+
+Locks: no change of thresholds, windows, quantiles, leg counts or samples after seeing any result. A coding
+error found after a run is fixed and logged as CLARIFICATION with both numbers. Each script is run once to
+produce the reported numbers (results/paper/v8.txt).
+CLARIFICATION paper_v8 (2026-11-21, after registration, BEFORE any computation; no number has been produced):
+  (a) Sign. The header's "funding received by a long" applies to PORTFOLIO quantities (A4 B1/B2, A5 F1/F2, A6),
+      as in Table 4. The CROSS-SECTIONAL tests (P1, P1b, P2a, P2b, P3) use the funding RATE convention of Table 2
+      (+ = paid by longs; negative = shorts pay). Their registered directions were written in that convention:
+      P1/P1b "GLS slope > 0" = fewer long accounts with more negative rates; P3 and P2b "mean < 0" = the group pays
+      more as shorts. A5's "bottom decile of ex-ante excess funding" = most negative rates.
+      Ex-ante excess = sum over (D-7d, D] of (rate - default interest), unweighted (paper_v6 F). Next-week excess
+      (rate convention) = mark-weighted rates paid by a long minus mark-weighted default over the holding week,
+      i.e. -(funding received by a long + default), unlevered, no liquidation.
+  (b) A3 existence rules: OI must exist at D-1h and D-169h; GLS and its 7-day-earlier counterpart are means over
+      the hourly rows present in each 24-hour window and need at least 20 of 24 rows. FM regressions need >= 20
+      contracts in a week.
+  (c) P2a: weekly regressions need >= 5 contract-weeks on each side; the difference series uses weeks with both.
+  (d) A4: Bybit and Binance leg funding are both full-week, unlevered (no liquidation truncation), so that the
+      two exchanges are compared on the same holding. Mark weight at a Bybit settlement hour = Binance 1h mark
+      open at that hour; if missing, the Binance 1h mark open of the nearest earlier hour within 3 hours; if
+      still missing, the leg is not covered. Bybit symbol = Binance symbol (no renaming); a missing file = not
+      covered. The Bybit default interest uses each settlement's own interval (first settlement: modal interval).
+  (e) A6: the half-spread and sigma use the 30 daily bars ending D-1 (bars tuple open, close, quote volume, high,
+      low); a contract leaving the universe is charged with its own values at that date. Costs enter through
+      paper_v5.ls5(cost_of=...), which otherwise equals the main specification.
+  (f) A6 fallback (still before computation): if fewer than 20 of the 30 daily bars exist or the 30-day quote
+      volume is zero, the leg is charged the main 0.10% per side; the number of such legs is reported.
+RESULT paper_v8 (2026-11-21 15:17 UTC, results/paper/v8.txt, run once; main check MOM +0.623, LV -0.079, FUND +0.398):
+  6 of 9 criteria hold.
+  P1  HOLDS  GLS slope on ex-ante excess funding +0.0089 (NW4 t 4.38, NW26 2.64); 248 weeks 2021-12..2026-10, coverage 97.6%.
+  P1b HOLDS  GLS slope on next-week excess funding, controlling for ex-ante funding, +0.0044 (t 3.14, NW26 2.52).
+  P3  DOES NOT HOLD  crowded minus others among the 10 most volatile -0.388% (NW4 t -1.74; NW26 t -2.43), 224 weeks.
+  P2a DOES NOT HOLD  persistence negative side 0.746 vs positive 0.750, difference -0.004 (t -0.01); only 56 weeks
+                     have >= 5 contract-weeks on both sides (most settlements equal the default, excess = 0): low power.
+  P2b HOLDS  bottom ex-ante quintile, HARD minus EASY -1.116% per week (t -4.16, NW26 -2.81), 307 weeks.
+  B1  HOLDS  Bybit short-leg excess funding -0.302% (t -3.30) vs Binance same legs -0.357% (t -4.36); coverage 74.9%.
+  B2  HOLDS  ratio 0.85 [0.69, 0.95]. MOM long leg ratio 0.99, LV full-universe short leg 1.01.
+  F1  HOLDS  filtered spot-sample funding component +0.004% (t 0.22) vs -0.244%.
+  F2  DOES NOT HOLD  full-universe LV net +0.172% vs -0.079%, difference +0.251% (t 1.53).
+  A5 descriptive: leave-one-year-out funding component -0.17% (without 2026) to -0.30%, t between -3.35 and -4.37;
+     10 most negative weeks = 38% of the cumulative component.
+  A6 descriptive: Abdi-Ranaldo fee + half-spread per side mean 0.612%, median 0.050%, 90th pct 1.707%. NOTE (after
+     the run, interpretation only, nothing changed): a mean half-spread above 0.5% for the 30 most liquid Binance
+     perpetuals is far above any quoted spread on these contracts; the daily high-low estimator is dominated by
+     24/7 volatility and jumps in a few contracts. The A6 levels are therefore not credible as cost estimates and
+     will not be used as evidence; if needed, a book-based measure (Binance bookTicker archive) must be registered
+     separately.
+NOTE paper_v8 P2b post-hoc diagnostic (2026-11-21, self-review of the v3.1 draft; written BEFORE computing; P2b's
+registered verdict is unchanged whatever this shows): P2b compares HARD and EASY next-week excess funding inside the
+bottom ex-ante quintile without controlling for ex-ante funding inside that quintile. Diagnostic, reported in full:
+(i) mean ex-ante excess funding and mean 7-day volatility of HARD vs EASY inside the quintile (weekly differences,
+NW4 t); (ii) weekly cross-sectional OLS inside the quintile of next-week excess funding on ex-ante excess funding and
+a HARD dummy (weeks with >= 2 HARD and >= 2 EASY), FM mean of the HARD coefficient with NW4/NW26 t. If the HARD
+coefficient in (ii) is not significant (|t| < 2), the paper will say that P2b's difference is explained by ex-ante
+funding levels and will not cite it as evidence of limits to arbitrage.
+RESULT paper_v8 P2b diagnostic (2026-11-21, results/paper/v8_diag.txt, run once): inside the bottom ex-ante quintile
+  HARD contracts had more negative ex-ante excess funding (-1.54 points, t -4.16) and higher 7-day volatility
+  (t +4.45). Controlling for ex-ante excess funding, the FM HARD coefficient is -0.38 points per week (NW4 t -2.22,
+  NW26 t -2.24; 238 weeks), against the unadjusted -1.12. By the rule in the NOTE (|t| >= 2) it may still be cited,
+  but the paper reports -0.38 as the estimate and -1.12 as unadjusted; about two thirds of P2b's raw difference is
+  the HARD contracts' more negative past funding.
+NOTE (2026-11-21): the manuscript ID in the paper_v8 header should read FUT-26-00943 (typed as FUT-25-00943 at registration).

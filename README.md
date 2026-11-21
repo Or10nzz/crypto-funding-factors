@@ -59,6 +59,27 @@ Binance's 30-minute index-price average for the nine contract-weeks with a delis
 archive files are listed in `data/index_files.txt` (`data/futures/um/monthly/indexPriceKlines/<SYMBOL>/1m/`). The second
 is the day-by-day ALPACA table in Appendix A, which is read from the settlement records in the same data.
 
+## Revision analyses (paper_v8, added 2026-11-21)
+
+Positioning, second-exchange, ex-ante filter and cost tests prepared for a revision, registered in
+`results/registry_paper.txt` (PRE-REGISTERED paper_v8, its CLARIFICATION, RESULT, and a labelled post-hoc diagnostic)
+before computation. They need two extra public data sets:
+
+- `data/hist/metrics/<SYMBOL>.csv`: hourly `sum_open_interest` and `count_long_short_ratio` from Binance's archive
+  (`data/futures/um/daily/metrics/`), from December 2021; `histdata.py` downloads them.
+- `data/bybit_funding/<SYMBOL>.json`: Bybit's public funding history from its v5 public API
+  (`/v5/market/funding/history`, category `linear`), saved as a list of `[timestamp_ms, rate]`. It was downloaded on
+  2026-11-17 with a one-off script that was not kept; any client that pages through that endpoint reproduces it.
+
+```bash
+python paper_v8.py        # A3 positioning, P2 arbitrage constraint, A4 Bybit, A5 tails, A6 costs -> results/paper/v8.txt
+python p8_diag.py         # post-hoc P2b diagnostic -> results/paper/v8_diag.txt
+python paper_v8_figs.py   # Bybit vs Binance by year (fig_bybit)
+python paper_v8_spec.py   # specification curves including the ex-ante filter (fig_spec_v3)
+```
+
+`results/expected/v8.txt` and `v8_diag.txt` are the outputs of the single registered runs.
+
 ## Pre-registration
 
 `results/registry_paper.txt` is an extract of the research log. Each test was written into it before it was computed.

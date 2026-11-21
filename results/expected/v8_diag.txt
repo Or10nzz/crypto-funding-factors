@@ -1,0 +1,5 @@
+paper_v8 P2b diagnostic (post-hoc, registry NOTE 2026-11-21)
+  P2b raw difference (check vs v8): -1.116% (t -4.16), weeks 307
+  (i) HARD minus EASY ex-ante excess funding inside bottom quintile: -1.540% (t -4.16)
+      HARD minus EASY 7-day volatility: +0.0241 (t +4.45), weeks 307
+  (ii) FM HARD coefficient controlling for ex-ante excess funding: -0.383% (NW4 t -2.22, NW26 t -2.24), weeks 238
