@@ -523,3 +523,28 @@ RESULT paper_v8 P2b diagnostic (2026-11-21, results/paper/v8_diag.txt, run once)
   but the paper reports -0.38 as the estimate and -1.12 as unadjusted; about two thirds of P2b's raw difference is
   the HARD contracts' more negative past funding.
 NOTE (2026-11-21): the manuscript ID in the paper_v8 header should read FUT-26-00943 (typed as FUT-25-00943 at registration).
+==== 2026-11-21 PRE-REGISTERED paper_v8 A4b: third exchange, OKX (written before downloading any OKX file into the project and before computation) ====
+Purpose: same as A4 (Bybit), for OKX. Revision material only; the submitted manuscript is not changed.
+Data: OKX public historical data, module 3 (funding rates), daily zip files
+  https://static.okx.com/cdn/okex/traderecords/swaprates/daily/YYYYMMDD/allswap-fundingrates-YYYY-MM-DD.zip
+  (columns instrument_name, funding_rate, funding_time), first file 2022-01-17. Files are dated by OKX's day (UTC+8);
+  settlements are de-duplicated by (instrument, time). Funding times carry seconds of jitter and are rounded to the
+  nearest minute. Only USDT-margined swaps ("BASE-USDT-SWAP") are used. Mapping to Binance symbols: Binance base with
+  a leading "1000000", "1000" or "1M" removed equals the OKX base; otherwise the leg is not covered (no manual
+  renaming). Funding rates are per unit notional, so contract-size differences do not matter.
+Method: identical to A4 / CLARIFICATION (d): picks unchanged (Binance data); per leg, full-week (unlevered) excess
+  funding received by a long = -sum (rate - default) x Binance 1h mark open / entry price, default 0.01% per 8h
+  prorated to each OKX settlement's own interval; COVERED = an OKX settlement in the 24 hours after entry and in the
+  24 hours before exit and no gap longer than 2x the modal interval inside the week; covered legs only, weights
+  renormalised within each leg; Binance recomputed on exactly the same legs. Coverage reported by year and leg.
+  OKX's own default interest component is not verified; raw (not excess) funding on both exchanges is reported too.
+  C1  LV 7-day, spot sample: short-leg excess funding on OKX. Holds if mean < 0 with t <= -2 (NW4).
+  C2  OKX / Binance ratio of means in [0.5, 1.5] (8-week block bootstrap interval reported).
+  Also reported, no criterion: raw-funding version of C1/C2; MOM long leg and LV full-universe short leg; by year.
+Locks as in paper_v8. Run once -> results/paper/v8_okx.txt.
+RESULT paper_v8 A4b OKX (2026-11-21 18:29 UTC, results/paper/v8_okx.txt, run once; main check MOM +0.623, LV -0.079):
+  OKX daily files 2022-01-17..2026-11-01, none missing; 205 of 298 universe symbols mapped. LV 7-day spot-sample short
+  legs covered 1096/1818 = 60.3% (2020-21 0%, 2022-26 65-84%).
+  C1 HOLDS  OKX short-leg excess funding -0.324% (t -4.42, NW26 -3.59) vs Binance same legs -0.317% (t -4.45), 231 weeks.
+  C2 HOLDS  ratio 1.02 [0.94, 1.12]. Raw funding: ratio 0.99 [0.87, 1.12]. MOM long leg ratio 1.08; LV full short 1.06.
+  Same sign every year 2022-2026. With A4 (Bybit), 8 of the 11 registered paper_v8 criteria hold.

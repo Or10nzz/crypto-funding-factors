@@ -1,0 +1,11 @@
+paper_v8 A4b OKX 2026-11-21 18:29 UTC: 317 weeks
+check vs paper_v5 main net: MOM +0.623%, LV -0.079%
+  OKX files mapped to 205 of 298 universe symbols
+  LV 7-day spot-sample short legs covered 1096/1818 = 60.3%; by year 2020 0%, 2021 0%, 2022 78%, 2023 65%, 2024 84%, 2025 82%, 2026 76%
+  [excess] short-leg funding, covered legs: OKX -0.324% (t -4.42) vs Binance same legs -0.317% (t -4.45); weeks 231; NW26 t OKX -3.59; ratio 1.02 [0.94, 1.12]
+      C1 HOLDS (mean < 0, t <= -2)
+      C2 HOLDS (ratio in [0.5, 1.5])
+      by year (OKX / Binance, % of book per week): 2022 -0.287% / -0.259% (49 wks); 2023 -0.543% / -0.603% (50 wks); 2024 +0.006% / +0.024% (53 wks); 2025 -0.334% / -0.299% (51 wks); 2026 -0.605% / -0.581% (28 wks)
+  [raw] short-leg funding, covered legs: OKX -0.211% (t -2.90) vs Binance same legs -0.212% (t -2.99); weeks 231; NW26 t OKX -2.40; ratio 0.99 [0.87, 1.12]
+  MOM full universe, long leg: covered 1087/1902 = 57.2%; OKX +0.647% (t +3.83) vs Binance +0.602% (t +3.91); ratio 1.08
+  LV full universe, short leg: covered 1090/1902 = 57.3%; OKX -0.642% (t -3.83) vs Binance -0.608% (t -3.95); ratio 1.06
