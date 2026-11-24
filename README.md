@@ -1,6 +1,6 @@
 # What Funding Does to Crypto Factor Returns — replication code
 
-Code for *What Funding Does to Crypto Factor Returns: Evidence from Perpetual Futures* (Orion, University of Macau).
+Code for *What Funding Does to Crypto Factor Returns: Evidence from Perpetual Futures* (Chaksan Liu, University of Macau).
 It downloads public Binance data, builds the weekly top-30 perpetual universe (Sep 2020 – Oct 2026), and produces every
 table and figure in the paper.
 
@@ -32,8 +32,8 @@ python paper_v6.py    # margin regimes, spot-sample selection, interval changes 
 python paper_v7.py    # spot margin, event study, overlap, quintiles, extended Fama-MacBeth, tiered costs -> results/paper/v7.txt
 
 # 3. Figures
-python paper_v4_figs.py   # Figure 2 (fig_parts)
-python paper_v7_figs.py   # Figure 1 (fig_lv_spot) and Figure 3 (fig_spec); run after paper_v4_figs.py
+python paper_v4_figs.py   # Figure 4 (fig_parts)
+python paper_v7_figs.py   # Figure 2 (fig_lv_spot) and an earlier fig_spec; run after paper_v4_figs.py
 ```
 
 `paper_v5.py` installs the main conventions (mark-price-weighted funding, hourly isolated-margin liquidation, exit at
@@ -49,9 +49,9 @@ those three directly if you want the paper's numbers: on their own they use the 
 | Unlock (hedging-demand) test | `results/paper/v5main/v4.txt` |
 | Table 5A, event study, momentum/low-volatility overlap, Table 7 extensions, tiered costs | `results/paper/v7.txt` |
 | Table 5B, the spot-sample selection paragraph, settlement-interval counts | `results/paper/v6.txt`, last block of `v7.txt` |
-| Figures 1–3 | `figures/` |
+| Figures 1–4 | `figures/` |
 
-`results/expected/` holds the reports exactly as they were produced for the submitted version, so a rerun can be
+`results/expected/` holds the reports exactly as they were produced for the paper, so a rerun can be
 compared line by line.
 
 Two checks in the paper were run interactively and have no script. The first compares the delivery-price proxy with
@@ -78,8 +78,8 @@ python paper_v8.py        # A3 positioning, P2 arbitrage constraint, A4 Bybit, A
 python p8_diag.py         # post-hoc P2b diagnostic -> results/paper/v8_diag.txt
 python okx_funding_data.py   # OKX public daily funding files (from 2022-01-17) -> data/okx_funding/
 python paper_v8_okx.py    # A4b: the same comparison on OKX -> results/paper/v8_okx.txt
-python paper_v8_figs.py   # Figure 4: Binance vs Bybit and Binance vs OKX by year (fig_bybit)
-python paper_v8_spec.py   # specification curves including the ex-ante filter (fig_spec_v3)
+python paper_v8_figs.py   # Figure 1: Binance vs Bybit and Binance vs OKX by year (fig_bybit)
+python paper_v8_spec.py   # earlier version of Figure 3 (fig_spec_v3)
 ```
 
 `results/expected/v8.txt`, `v8_diag.txt` and `v8_okx.txt` are the outputs of the single registered runs.
@@ -89,7 +89,7 @@ python paper_v8_spec.py   # specification curves including the ex-ante filter (f
 - `paper_v9_checks.py` prints numbers the other scripts do not (expected: `results/expected/v9_checks.txt`): the funding/spot
   ratio intervals with spot legs floored (the convention of Table 4; `paper_v6.py` prints another convention), the i.i.d. t
   of the 7-day funding component, sample halves, funding without liquidation, and FUND by year.
-- `paper_v9_spec.py` draws the specification figure of v3.5 (needs `paper_v8_spec.py`).
+- `paper_v9_spec.py` draws Figure 3 of v3.5 (fig_spec_v35; needs `paper_v8_spec.py`).
 - Known label error: in `paper_v7.py` section M6, the line labelled "LV7 spot funding" is the 30-day series (a variable is
   overwritten in an earlier loop). The 7-day values are in `v9_checks.txt` (i.i.d. t = -6.48).
 
