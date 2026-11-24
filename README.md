@@ -1,6 +1,6 @@
 # What Funding Does to Crypto Factor Returns — replication code
 
-Code for *What Funding Does to Crypto Factor Returns: Evidence from Perpetual Futures* (Chaksan Liu, University of Macau).
+Code for *What Funding Does to Crypto Factor Returns: Evidence from Perpetual Futures* (Orion, University of Macau).
 It downloads public Binance data, builds the weekly top-30 perpetual universe (Sep 2020 – Oct 2026), and produces every
 table and figure in the paper.
 
@@ -83,6 +83,15 @@ python paper_v8_spec.py   # specification curves including the ex-ante filter (f
 ```
 
 `results/expected/v8.txt`, `v8_diag.txt` and `v8_okx.txt` are the outputs of the single registered runs.
+
+## Checks added for v3.5
+
+- `paper_v9_checks.py` prints numbers the other scripts do not (expected: `results/expected/v9_checks.txt`): the funding/spot
+  ratio intervals with spot legs floored (the convention of Table 4; `paper_v6.py` prints another convention), the i.i.d. t
+  of the 7-day funding component, sample halves, funding without liquidation, and FUND by year.
+- `paper_v9_spec.py` draws the specification figure of v3.5 (needs `paper_v8_spec.py`).
+- Known label error: in `paper_v7.py` section M6, the line labelled "LV7 spot funding" is the 30-day series (a variable is
+  overwritten in an earlier loop). The 7-day values are in `v9_checks.txt` (i.i.d. t = -6.48).
 
 ## Pre-registration
 
